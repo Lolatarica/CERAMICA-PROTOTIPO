@@ -1,0 +1,277 @@
+/* src/index.css */
+
+/* 1. Importamos Beth Ellen y Poppins desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Beth+Ellen&family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-marron-oscuro: #5D4D42; 
+  --color-crema: #fbfaf5;         
+  --color-blanco: #FFFFFF;        
+  --color-texto: #333333;
+  
+  /* 2. Actualizamos las variables con las nuevas fuentes */
+  --font-principal: 'Poppins', sans-serif;
+  --font-titulo: 'Beth Ellen', cursive;
+}
+
+body {
+  margin: 0;
+  /* Aplicamos Open Sans a todo el texto de la página por defecto */
+  font-family: var(--font-principal);
+  background-color: var(--color-crema);
+  background-image:
+    radial-gradient(circle at 15% 15%, rgba(255,255,255,0.9) 0%, rgba(250,247,240,0.7) 35%, transparent 70%),
+    radial-gradient(circle at 85% 10%, rgba(255,255,255,0.85) 0%, rgba(245,240,230,0.4) 30%, transparent 68%),
+    radial-gradient(circle at 50% 80%, rgba(255,255,255,0.9) 0%, rgba(248,244,235,0.5) 25%, transparent 65%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--color-texto);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.app-shell {
+  width: min(100%, 480px);
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.app-shell--wide {
+  width: min(100%, 1280px);
+}
+
+.app-header {
+  width: 100%;
+}
+
+.app-main {
+  width: 100%;
+}
+
+.responsive-card-grid {
+  display: grid;
+  gap: 24px;
+}
+
+.responsive-inline-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.responsive-stretch {
+  width: 100%;
+}
+
+.responsive-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content-shell {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.content-shell--sm {
+  max-width: 620px;
+}
+
+.content-shell--md {
+  max-width: 820px;
+}
+
+.content-shell--lg {
+  max-width: 1040px;
+}
+
+.content-shell--xl {
+  max-width: 1200px;
+}
+
+.stack-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.filter-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.cards-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.actions-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-scroll > table {
+  min-width: 640px;
+}
+
+.table-scroll--calendar > table {
+  min-width: 720px;
+}
+
+.table-scroll--compact > table {
+  min-width: 560px;
+}
+
+.split-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.sticky-desktop {
+  align-self: start;
+}
+
+.desktop-centered-main {
+  width: 100%;
+}
+
+.desktop-centered-stage {
+  width: 100%;
+}
+
+.desktop-form-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.desktop-form-row {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 768px) {
+  body {
+    padding: 0;
+  }
+
+  .app-shell {
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+    overflow: visible;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+  }
+
+  .app-shell--wide {
+    width: 100%;
+  }
+
+  .app-header {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+
+  .app-main {
+    padding-left: 32px !important;
+    padding-right: 32px !important;
+  }
+
+  .responsive-card-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .responsive-inline-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .filter-grid--2,
+  .cards-grid--2,
+  .actions-grid--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .filter-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .split-layout--dashboard {
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.85fr);
+    align-items: start;
+  }
+
+  .sticky-desktop {
+    position: sticky;
+    top: 120px;
+  }
+}
+
+@media (min-width: 1100px) {
+  body {
+    padding: 0;
+  }
+
+  .app-shell {
+    width: 100%;
+  }
+
+  .app-shell--wide {
+    width: 100%;
+  }
+
+  .app-header {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  .app-main {
+    padding-left: 40px !important;
+    padding-right: 40px !important;
+  }
+
+  .filter-grid--4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .cards-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .desktop-centered-main {
+    min-height: calc(100vh - 250px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .desktop-centered-stage {
+    min-height: calc(100vh - 320px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .desktop-form-grid {
+    gap: 22px;
+  }
+
+  .desktop-form-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 28px;
+    align-items: end;
+  }
+}
