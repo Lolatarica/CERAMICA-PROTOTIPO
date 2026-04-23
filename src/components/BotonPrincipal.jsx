@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 function BotonPrincipal({ text, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
   const buttonStyle = {
-    width: '100%',
+    width: '95%',
     padding: '15px',
     backgroundColor: 'var(--color-marron-oscuro)',
     color: 'var(--color-blanco)',
@@ -16,7 +16,7 @@ function BotonPrincipal({ text, onClick }) {
     boxShadow: isHovered ? '0 8px 16px rgba(0,0,0,0.35)' : '0 4px 6px rgba(0,0,0,0.3)',
     transform: isHovered ? 'scale(1.03)' : 'scale(1)',
     transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Efecto suave
-    marginTop: '20px'
+    marginTop: '10px'
   };
 
   return (

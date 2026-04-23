@@ -1,0 +1,226 @@
+/* =========================================
+   Estilos específicos de ProfesorDashboard
+   ========================================= */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-crema);
+}
+
+.dashboard-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.dashboard-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 28px;
+  margin: 0;
+}
+
+.dashboard-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dashboard-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  object-fit: cover;
+}
+
+.dashboard-logout {
+  color: #E0C9A6;
+  font-size: 12px;
+  margin-top: 5px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.dashboard-body {
+  padding: 46px 30px 30px;
+  flex: 1;
+}
+
+.dashboard-tabla-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 26px;
+}
+
+.dashboard-tabla-titulo-contenedor {
+  background-color: #C8A97E;
+  padding: 16px 12px;
+  text-align: center;
+}
+
+.dashboard-tabla-titulo {
+  font-family: var(--font-titulo);
+  font-size: 22px;
+  color: var(--color-marron-oscuro);
+  margin: 0;
+}
+
+.dashboard-tabla-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+
+.dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  text-align: center;
+  font-size: 13px;
+  table-layout: fixed;
+}
+
+.dashboard-thead-row {
+  background-color: var(--color-marron-oscuro);
+}
+
+.dashboard-th {
+  background-color: transparent;
+  color: white;
+  padding: 11px 4px;
+  font-weight: normal;
+  border: none;
+}
+
+.dashboard-th-alumno { width: 22%; }
+.dashboard-th-clase { width: 24%; }
+.dashboard-th-horario { width: 24%; }
+.dashboard-th-accion { width: 30%; }
+
+.dashboard-td {
+  padding: 10px 4px;
+  color: #333;
+  vertical-align: middle;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.dashboard-td-accion {
+  padding: 8px 4px;
+  vertical-align: middle;
+}
+
+.dashboard-tr-gris {
+  background-color: #EAEAEA;
+}
+
+.dashboard-boton-comprobante {
+  width: 100%;
+  padding: 9px 8px;
+  min-height: 56px;
+  border-radius: 14px;
+  border: none;
+  background-color: #d9eef7;
+  color: #205b73;
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 1.15;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(120, 180, 206, 0.24);
+}
+
+.dashboard-tabla-vacia {
+  padding: 18px 12px;
+  text-align: center;
+  color: #777;
+}
+
+.dashboard-botones-container {
+  gap: 2px;
+}
+
+/* =========================================
+   Media Queries para el Dashboard
+   ========================================= */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-botones-fullwidth .actions-grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dashboard-botones-fullwidth .actions-grid--2 button {
+    min-width: 0;
+    width: 80%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .agendar-main {
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+  }
+}
+
+/* Pantallas grandes: agendamientos recientes 100% y botones debajo en dos columnas */
+@media (min-width: 1200px) {
+  .dashboard-table-fullwidth .dashboard-table,
+  .dashboard-table-fullwidth .dashboard-table th,
+  .dashboard-table-fullwidth .dashboard-table td {
+    font-size: 1em !important;
+  }
+
+  .dashboard-boton-comprobante {
+    font-size: 1em !important;
+  }
+  .split-layout--dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .dashboard-table-fullwidth {
+    width: 100%;
+  }
+  .dashboard-botones-fullwidth {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: 20px;
+    min-height: 340px;
+  }
+  .dashboard-botones-fullwidth .actions-grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 10px;
+    width: 98%;
+    max-width: 1100px;
+    min-height: 220px;
+    align-items: stretch;
+  }
+  .dashboard-botones-fullwidth .actions-grid--2 button {
+     width: 100%;
+     max-width: unset;
+     padding-left: 0;
+     padding-right: 0;
+     min-width: 0;
+     font-size: 1.6em !important;
+     min-height: 80px;
+     border-radius: 28px;
+     box-shadow: 0 10px 24px rgba(120, 180, 206, 0.18);
+     line-height: 1.1;
+     letter-spacing: 0.5px;
+  }
+}

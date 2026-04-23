@@ -1,3 +1,23 @@
+/* Botonera principal del dashboard en dos columnas y ancho fluido en pantallas medianas */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-botones-fullwidth .actions-grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dashboard-botones-fullwidth .actions-grid--2 button {
+    min-width: 0;
+    width: 80%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .agendar-main {
+    padding-left: 100px !important;
+    padding-right: 100px !important;
+  }
+}
 .counter {
   font-size: 16px;
   padding: 5px 10px;

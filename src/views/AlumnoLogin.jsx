@@ -95,7 +95,7 @@ function AlumnoLogin({ onSiguiente, onAccesoProfesor }) {
       backgroundColor: 'var(--color-marron-oscuro)',
       padding: '40px 20px 20px 20px',
       textAlign: 'center',
-      position: 'sticky',
+      // position: 'sticky',
       top: 0,
       zIndex: 40,
     },

@@ -1,3 +1,49 @@
+@media (min-width: 768px) and (max-width: 1024px) {
+  .cards-grid--2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+/* --- (mover esto al final del archivo para mayor especificidad) --- */
+/* Botonera principal del dashboard en dos columnas y ancho fluido en pantallas medianas */
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-botones-fullwidth .actions-grid--2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dashboard-botones-fullwidth .actions-grid--2 button {
+    min-width: 0;
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+}
+/* Responsive dashboard: tabla ocupa todo el ancho y botones debajo en pantallas medianas */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .dashboard-responsive {
+    display: block !important;
+  }
+  .dashboard-table-fullwidth {
+    width: 100%;
+    margin-bottom: 32px;
+  }
+  .dashboard-botones-fullwidth {
+    width: 100%;
+  }
+  .split-layout--dashboard {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  .content-shell--md {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+}
 /* src/index.css */
 
 /* 1. Importamos Beth Ellen y Poppins desde Google Fonts */
@@ -134,8 +180,7 @@ body {
 }
 
 .split-layout {
-  display: grid;
-  gap: 24px;
+  display: grid;  
 }
 
 .sticky-desktop {
@@ -185,8 +230,8 @@ body {
   }
 
   .app-main {
-    padding-left: 32px !important;
-    padding-right: 32px !important;
+    padding-left: 100px !important;
+    padding-right: 100px !important;
   }
 
   .responsive-card-grid--2 {

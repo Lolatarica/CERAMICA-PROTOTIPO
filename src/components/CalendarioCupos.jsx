@@ -1,5 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { formatClassTimeRange } from '../utils/timeFormat';
+
+function useIsLargeScreen() {
+  const [isLarge, setIsLarge] = useState(() => window.innerWidth >= 1200);
+  useEffect(() => {
+    const handler = () => setIsLarge(window.innerWidth >= 1200);
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, []);
+  return isLarge;
+}
 
 function CalendarioCupos({
   clase,
@@ -20,14 +30,15 @@ function CalendarioCupos({
     (turnosPorClase && clase ? turnosPorClase[clase] : {}) ??
     {};
 
-  const colHoraWidth = compacto ? '78px' : '98px';
-  const rowHeight = compacto ? '48px' : '52px';
-  const fontSize = compacto ? '13px' : '14px';
+  const isLargeScreen = useIsLargeScreen();
+  const colHoraWidth = isLargeScreen ? (compacto ? '110px' : '130px') : (compacto ? '78px' : '98px');
+  const rowHeight = isLargeScreen ? (compacto ? '64px' : '72px') : (compacto ? '48px' : '52px');
+  const fontSize = isLargeScreen ? (compacto ? '16px' : '17px') : (compacto ? '13px' : '14px');
   const rangoHoraStyle = {
     ...styles.rangoHora,
     whiteSpace: compacto ? 'normal' : 'nowrap',
     lineHeight: compacto ? '1.1' : '1',
-    fontSize: compacto ? '11px' : '12px',
+    fontSize: isLargeScreen ? (compacto ? '14px' : '15px') : (compacto ? '11px' : '12px'),
     padding: compacto ? '0 4px' : 0,
   };
   const wrapperClassName = compacto ? undefined : 'table-scroll table-scroll--calendar';

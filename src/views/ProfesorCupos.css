@@ -1,0 +1,406 @@
+/* =========================================
+   Estilos específicos de ProfesorCupos
+   ========================================= */
+
+.cupos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-crema);
+  position: relative;
+}
+
+.cupos-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.cupos-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cupos-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 24px;
+  margin: 0;
+}
+
+.cupos-back-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #E0C9A6;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cupos-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  object-fit: cover;
+}
+
+.cupos-body {
+  padding: 46px 30px 30px;
+  flex: 1;
+}
+
+.cupos-contenedor-select {
+  margin-bottom: 20px;
+}
+
+.cupos-label-select {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.cupos-select-base {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: var(--color-blanco);
+  font-size: 16px;
+  font-family: var(--font-principal);
+  cursor: pointer;
+}
+
+.cupos-texto-contexto {
+  font-size: 12px;
+  color: #666;
+  margin-top: -8px;
+  margin-bottom: 18px;
+}
+
+/* Calendario base */
+.cupos-envoltorio-calendario {
+  border: 3px solid transparent;
+  padding: 0;
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  position: relative;
+  background-color: transparent;
+  margin-bottom: 18px;
+  overflow: visible;
+}
+
+/* Calendario en modo edición */
+.cupos-envoltorio-calendario--edicion {
+  border: 3px dashed var(--color-marron-oscuro);
+  padding: 10px 8px 30px 8px;
+  background-color: rgba(93, 77, 66, 0.05);
+}
+
+.cupos-cartel-edicion {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-marron-oscuro);
+  color: white;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: none; /* Oculto por defecto */
+}
+
+.cupos-cartel-edicion--visible {
+  display: block;
+}
+
+.cupos-boton-agregar-fila {
+  position: absolute;
+  left: 8px;
+  bottom: -30px;
+  width: 78px;
+  height: 46px;
+  border: 3px dashed var(--color-marron-oscuro);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  background-color: #C8A97E;
+  color: var(--color-marron-oscuro);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  box-shadow: 0 8px 14px rgba(93, 77, 66, 0.12);
+}
+
+.cupos-tabla-card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+.cupos-tabla-titulo-contenedor {
+  background-color: #C8A97E;
+  padding: 10px;
+  text-align: center;
+}
+
+.cupos-tabla-titulo {
+  font-family: var(--font-principal);
+  font-size: 16px;
+  color: var(--color-marron-oscuro);
+  margin: 0;
+  font-weight: bold;
+}
+
+.cupos-texto-profesor {
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+  color: #5b4b41;
+  font-size: 13px;
+}
+
+.cupos-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 14px;
+}
+
+.cupos-th {
+  background-color: var(--color-marron-oscuro);
+  color: white;
+  padding: 8px 5px;
+  font-weight: normal;
+}
+
+.cupos-td {
+  padding: 10px 5px;
+  color: #333;
+  border-bottom: 1px solid #eee;
+}
+
+/* Media query para pantallas grandes: aumentar padding de filas de tabla */
+@media (min-width: 1200px) {
+  .cupos-th, .cupos-td {
+    color: red !important;
+    padding-top: 28px;
+    padding-bottom: 28px;
+    font-size: 17px;
+  }
+}
+
+.cupos-texto-vacio {
+  text-align: center;
+  padding: 15px;
+  color: #666;
+  margin: 0;
+}
+
+.cupos-botones-flotantes-wrap {
+  position: relative;
+  margin-bottom: 30px;
+  margin-top: 10px;
+}
+
+.cupos-botones-flotantes-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.cupos-boton-redondo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--color-marron-oscuro);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.cupos-icono-boton-redondo {
+  width: 26px;
+  height: 26px;
+  display: block;
+}
+
+.cupos-boton-redondo--activo {
+  background-color: #C8A97E;
+  transform: scale(1.1);
+}
+
+.cupos-texto-ayuda {
+  position: absolute;
+  right: 0;
+  top: 70px;
+  font-size: 12px;
+  color: #666;
+  text-align: right;
+  font-style: italic;
+}
+
+/* Modales */
+.cupos-overlay-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 18px;
+}
+
+.cupos-caja-modal {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 360px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.cupos-modal-titulo {
+  margin-top: 0;
+  color: var(--color-marron-oscuro);
+}
+
+.cupos-modal-texto {
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.cupos-input-modal {
+  width: 100%;
+  padding: 10px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.cupos-fila-cupos-dias {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cupos-cupo-dia-item {
+  text-align: left;
+}
+
+.cupos-cupo-dia-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5b4b41;
+  margin-bottom: 4px;
+  text-align: center;
+}
+
+.cupos-input-cupo-dia {
+  width: 100%;
+  padding: 8px;
+  font-size: 15px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.cupos-botones-modal {
+  display: flex;
+  gap: 10px;
+}
+
+.cupos-btn-modal {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cupos-btn-cancelar {
+  background-color: #ddd;
+  color: #333;
+}
+
+.cupos-btn-aceptar {
+  background-color: var(--color-marron-oscuro);
+  color: white;
+}
+
+.cupos-btn-eliminar-modal {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #e3b3b3;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #fff4f4;
+  color: #b42318;
+}
+
+.cupos-boton-modal-secundario {
+  width: 100%;
+  padding: 15px;
+  background-color: #e9dcc9;
+  color: var(--color-marron-oscuro);
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cupos-boton-modal-principal {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--color-marron-oscuro);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}

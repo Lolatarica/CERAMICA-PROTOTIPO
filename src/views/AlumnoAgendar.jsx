@@ -53,7 +53,7 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
   const textosInfoClase = {
     ceramica: {
       titulo: 'Taller de Ceramica',
-      descripcion: 'Incluye una clase semanal. El valor mensual corresponde a 4 clases por mes y los materiales especiales se coordinan aparte si hiciera falta.',
+      descripcion: '* Las clases son una vez por semana de 2 horas con proyectos libres: modelado, construcción y torno. Crea a tu ritmo, te acompañamos en cada paso y horneamos tus piezas para que te las lleves listas. 4 clases al mes (Si el mes tiene 5 semanas no se dicta clase en la 5ª semana) Valor mensual:$68000 (incluye materiales y horneada, no es necesario que traigas nada!) Pago del 1 al 10 de cada mes preferentemente en efectivo Para una comunicación más fluida podés enviarme un WhatsApp: +54 9 11 6597-2182. Tenemos dos sedes una en Villa Devoto , Fernández de Enciso 3929 1*A y otra en Villa Pueyrredon , Nazca 4480 entre José Cubas y Vallejos',
     },
     pintura: {
       titulo: 'Taller de Pintura',
@@ -79,7 +79,7 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
       backgroundColor: 'var(--color-marron-oscuro)',
       padding: '40px 20px 20px 20px',
       textAlign: 'center',
-      position: 'sticky',
+      // position: 'sticky',
       top: 0,
       zIndex: 40,
     },
@@ -99,7 +99,7 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
       margin: '2px 0 0 0',
     },
     body: {
-      padding: '34px 14px 28px',
+      padding: '46px 30px 30px',
       flex: 1,
     },
     bloquePaso: {
@@ -188,8 +188,20 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
       maxWidth: '360px',
       backgroundColor: '#fffaf3',
       borderRadius: '18px',
-      padding: '22px 18px 18px',
+      padding: '38px 38px 32px',
       boxShadow: '0 22px 38px rgba(0,0,0,0.18)',
+    },
+    modalInfoLarge: {
+      maxWidth: '572px',
+      padding: '48px 48px 40px',
+    },
+    modalInfoLarge: {
+      maxWidth: '572px',
+    },
+    '@media (min-width: 700px)': {
+      modalInfo: {
+        maxWidth: '802px',
+      },
     },
     modalTitulo: {
       margin: '0 0 10px 0',
@@ -289,7 +301,7 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
         <h1 style={styles.title}>Agenda tu clase!</h1>
       </header>
 
-      <main className="app-main" style={styles.body}>
+      <main className="app-main agendar-main" style={styles.body}>
         <section style={styles.bloquePaso}>
           <h2 style={styles.tituloPaso}>Paso 2: Seleccione la sucursal</h2>
           <label style={styles.labelCampo}>¿En qué sucursal querés cursar?*</label>
@@ -365,10 +377,23 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
 
       {mostrarInfoClase && infoClaseActual && (
         <div style={styles.overlay} onClick={() => setMostrarInfoClase(false)}>
-          <div style={styles.modalInfo} onClick={(event) => event.stopPropagation()}>
+          <div
+            style={{
+              ...styles.modalInfo,
+              ...(window.innerWidth >= 700 ? styles.modalInfoLarge : {}),
+            }}
+            onClick={(event) => event.stopPropagation()}
+          >
             <h3 style={styles.modalTitulo}>{infoClaseActual.titulo}</h3>
             <p style={styles.modalSubtitulo}>Aclaraciones</p>
-            <p style={styles.modalTexto}>{infoClaseActual.descripcion}</p>
+            <ul style={{ ...styles.modalTexto, listStyleType: 'disc', paddingLeft: 24 }}>
+              {infoClaseActual.descripcion
+                .split(/(?<=[.!?])\s+/)
+                .filter(Boolean)
+                .map((frase, idx) => (
+                  <li key={idx} style={{ marginBottom: 8 }}>{frase}</li>
+                ))}
+            </ul>
             <button type="button" style={styles.modalBoton} onClick={() => setMostrarInfoClase(false)}>
               Cerrar
             </button>
