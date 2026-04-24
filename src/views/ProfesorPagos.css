@@ -1,0 +1,278 @@
+@media (min-width: 1024px) {
+  .pagos-lista-contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 32px;
+    align-items: start;
+  }
+  .pagos-resultados-txt {
+    grid-column: 1 / 3;
+  }
+}
+/* =========================================
+   Estilos específicos de ProfesorPagos
+   ========================================= */
+
+.pagos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-crema);
+  position: relative;
+}
+
+.pagos-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.pagos-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagos-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 24px;
+  margin: 0;
+}
+
+.pagos-back-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #E0C9A6;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pagos-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  object-fit: cover;
+}
+
+.pagos-body {
+  padding: 20px;
+  flex: 1;
+}
+
+.pagos-titulo-seccion {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Sección de Filtros */
+.pagos-seccion-filtros {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pagos-input-busqueda {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  font-family: var(--font-principal);
+}
+
+.pagos-fila-selects {
+  display: flex;
+  gap: 10px;
+}
+
+.pagos-select-filtro {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 16px;
+  font-family: var(--font-principal);
+}
+
+.pagos-btn-pendientes {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.pagos-btn-pendientes--activo {
+  background-color: #A95C5C;
+  color: white;
+}
+
+.pagos-btn-pendientes--inactivo {
+  background-color: #EAEAEA;
+  color: #666;
+}
+
+.pagos-resultados-txt {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+/* Tarjetas de Pago */
+.pagos-tarjeta-pago {
+  background-color: white;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.pagos-info-alumno {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.pagos-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #333;
+}
+
+/* Badges de Estado */
+.pagos-estado-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 6px 10px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.pagos-estado-badge--pagado {
+  background-color: #E8F5E9;
+  color: #2E7D32;
+}
+
+.pagos-estado-badge--revisar {
+  background-color: #FFF8E1;
+  color: #F57F17;
+}
+
+.pagos-estado-badge--deuda {
+  background-color: #FFEBEE;
+  color: #C62828;
+}
+
+/* Asignaciones */
+.pagos-asignaciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pagos-asignacion-item {
+  background-color: #f7f0e6;
+  border-radius: 14px;
+  padding: 12px 14px;
+}
+
+.pagos-clase-txt {
+  font-size: 13px;
+  color: #2f261e;
+  margin: 0;
+  font-weight: 700;
+}
+
+.pagos-meta-txt {
+  font-size: 12px;
+  color: #6f6254;
+  margin: 4px 0 0 0;
+}
+
+/* Controles de Pago */
+.pagos-label-metodo-pago {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #6f6254;
+  margin: 10px 0 6px 0;
+}
+
+.pagos-select-metodo-pago {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 14px;
+  color: #333;
+}
+
+.pagos-boton-toggle-pago {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pagos-boton-toggle-pago--pagado {
+  background-color: #6f9f72;
+  color: white;
+  box-shadow: 0 10px 18px rgba(111, 159, 114, 0.24);
+}
+
+.pagos-boton-toggle-pago--deuda {
+  background-color: #b75b52;
+  color: white;
+  box-shadow: 0 10px 18px rgba(183, 91, 82, 0.24);
+}
+
+.pagos-boton-comprobante-inicial {
+  width: 100%;
+  padding: 9px 8px;
+  min-height: 56px;
+  border-radius: 14px;
+  border: none;
+  background-color: #d9eef7;
+  color: #205b73;
+  font-weight: 800;
+  font-size: 11px;
+  line-height: 1.15;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(120, 180, 206, 0.24);
+}
+
+.pagos-empty-state {
+  text-align: center;
+  margin-top: 30px;
+  color: #999;
+}

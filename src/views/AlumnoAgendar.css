@@ -1,0 +1,257 @@
+@media (min-width: 1024px) {
+  .agendar-body {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+}
+/* =========================================
+   Estilos específicos de AlumnoAgendar
+   ========================================= */
+
+.agendar-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--color-crema);
+}
+
+.agendar-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 40px 20px 20px 20px;
+  text-align: center;
+  top: 0;
+  z-index: 40;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.agendar-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  object-fit: cover;
+}
+
+.agendar-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 28px;
+  margin: 2px 0 0 0;
+}
+
+.agendar-body {
+  padding: 46px 30px 30px;
+  flex: 1;
+}
+
+/* Animaciones y Transiciones de Pasos */
+.agendar-bloque-paso {
+  margin-bottom: 18px;
+}
+
+.agendar-bloque-paso--oculto {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  margin-bottom: 0;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.agendar-bloque-paso--visible {
+  opacity: 1;
+  max-height: 1200px;
+  overflow: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+  transition: opacity 0.24s ease, transform 0.24s ease, max-height 0.3s ease;
+}
+
+.agendar-titulo-paso {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-marron-oscuro);
+  margin: 0 0 10px 0;
+  line-height: 1.3;
+}
+
+.agendar-label-campo {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #333;
+  line-height: 1.25;
+}
+
+.agendar-select-base {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  background-color: var(--color-blanco);
+  font-size: 15px;
+  font-family: var(--font-principal);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
+  cursor: pointer;
+}
+
+.agendar-fila-precio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.agendar-precio-texto {
+  flex: 1;
+  font-size: 13px;
+  color: #8b7b6f;
+  line-height: 1.35;
+  margin: 0;
+}
+
+.agendar-boton-info {
+  border: none;
+  background-color: #efe3d1;
+  color: var(--color-marron-oscuro);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 6px 12px rgba(200, 169, 126, 0.18);
+  cursor: pointer;
+}
+
+/* Modal de Información */
+.agendar-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(55, 42, 34, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 80;
+}
+
+.agendar-modal-info {
+  width: 100%;
+  max-width: 360px;
+  background-color: #fffaf3;
+  border-radius: 18px;
+  padding: 38px 38px 32px;
+  box-shadow: 0 22px 38px rgba(0,0,0,0.18);
+}
+
+@media (min-width: 700px) and (max-width: 1023px) {
+  .agendar-modal-info {
+    max-width: 70vw;
+    width: 70vw;
+    padding: 48px 48px 40px;
+  }
+}
+@media (min-width: 1024px) {
+  .agendar-modal-info {
+    max-width: 60vw;
+    width: 60vw;
+    padding: 56px 64px 48px;
+  }
+  .agendar-modal-titulo,
+  .agendar-modal-subtitulo,
+  .agendar-modal-texto {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
+
+.agendar-modal-titulo {
+  margin: 0 0 10px 0;
+  color: var(--color-marron-oscuro);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.agendar-modal-subtitulo {
+  margin: 0 0 8px 0;
+  color: #7a6b5f;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.agendar-modal-texto {
+  margin: 0 0 16px 0;
+  color: #5f544a;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.agendar-modal-boton {
+  width: 100%;
+  border: none;
+  background-color: var(--color-marron-oscuro);
+  color: #fff;
+  border-radius: 12px;
+  padding: 13px 16px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Calendario y Horarios */
+.agendar-texto-horarios {
+  font-size: 13px;
+  color: #8b7b6f;
+  margin: 0 0 12px 0;
+}
+
+.agendar-calendario-marco {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  background-color: #fffdf9;
+  box-shadow: 0 10px 20px rgba(93, 77, 66, 0.08);
+}
+
+.agendar-boton-sucursal-alternativa {
+  width: 100%;
+  margin-top: 14px;
+  border: none;
+  background-color: #efe3d1;
+  color: var(--color-marron-oscuro);
+  border-radius: 14px;
+  padding: 13px 16px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(200, 169, 126, 0.2);
+}
+
+.agendar-aclaracion {
+  font-size: 12px;
+  color: #9a8a7d;
+  text-align: center;
+  line-height: 1.35;
+  margin: 16px 8px 0;
+}
+
+.agendar-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}

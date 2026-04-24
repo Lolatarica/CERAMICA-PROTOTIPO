@@ -1,6 +1,8 @@
+// src/views/ProfesorSucursales.jsx
 import React, { useState } from 'react';
 import logoTaller from '../assets/logo_taller.png';
 import BotonPrincipal from '../components/BotonPrincipal';
+import './ProfesorSucursales.css'; // <-- Acordate de crear e importar el archivo CSS
 
 function ProfesorSucursales({ sucursales, onVolver, onAgregarSucursal, onEditarSucursal, onEliminarSucursal, onSeleccionarSucursal }) {
   const [mostrarModal, setMostrarModal] = useState(false);
@@ -65,61 +67,34 @@ function ProfesorSucursales({ sucursales, onVolver, onAgregarSucursal, onEditarS
     onEliminarSucursal(sucursal.id);
   };
 
-  const styles = {
-    container: { display: 'flex', flexDirection: 'column', minHeight: '100vh', margin: '0 auto', backgroundColor: 'var(--color-crema)', position: 'relative' },
-    header: { backgroundColor: 'var(--color-marron-oscuro)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 40 },
-    titleRow: { display: 'flex', alignItems: 'center', gap: '10px' },
-    title: { color: '#E0C9A6', fontFamily: 'var(--font-titulo)', fontSize: '24px', margin: 0 },
-    backButton: { width: '24px', height: '24px', padding: 0, border: 'none', backgroundColor: 'transparent', color: '#E0C9A6', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-    logo: { width: '60px', height: '60px', borderRadius: '50%', backgroundColor: 'white', padding: '2px', objectFit: 'cover' },
-    body: { padding: '20px', flex: 1 },
-    tarjetaSucursal: { backgroundColor: 'white', padding: '20px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', marginBottom: '15px' },
-    tarjetaHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' },
-    tarjetaContenido: { cursor: 'pointer', flex: 1 },
-    direccion: { fontSize: '13px', color: '#555', marginTop: '8px', marginBottom: 0, lineHeight: '1.4' },
-    subtitulo: { fontSize: '12px', color: '#777', marginTop: '8px', marginBottom: 0 },
-    acciones: { display: 'flex', flexDirection: 'column', gap: '8px' },
-    botonSecundario: { border: 'none', backgroundColor: '#f5e6d2', color: '#1d1d1d', borderRadius: '14px', padding: '10px 14px', fontSize: '12px', fontWeight: '800', cursor: 'pointer', boxShadow: '0 8px 18px rgba(200, 169, 126, 0.22)' },
-    botonEliminar: { border: 'none', backgroundColor: '#fff4f4', color: '#b42318', borderRadius: '14px', padding: '10px 14px', fontSize: '12px', fontWeight: '800', cursor: 'pointer', boxShadow: '0 8px 18px rgba(179, 35, 24, 0.10)' },
-    overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: mostrarModal ? 'flex' : 'none', justifyContent: 'center', alignItems: 'center', zIndex: 1000 },
-    modal: { backgroundColor: 'white', padding: '24px', borderRadius: '20px', width: '92%', boxShadow: '0 22px 40px rgba(0,0,0,0.16)' },
-    tituloModal: { color: 'var(--color-marron-oscuro)', marginTop: 0, marginBottom: '8px', fontSize: '20px' },
-    labelForm: { display: 'block', fontSize: '16px', fontWeight: '700', marginBottom: '8px', color: '#333' },
-    inputNombre: { width: '100%', padding: '12px 15px', marginBottom: '18px', borderRadius: '8px', border: '1px solid #ddd', backgroundColor: 'var(--color-blanco)', fontSize: '16px', color: '#333', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)', boxSizing: 'border-box' },
-    inputDireccion: { width: '100%', padding: '12px 15px', marginBottom: '18px', borderRadius: '8px', border: '1px solid #ddd', backgroundColor: 'var(--color-blanco)', fontSize: '16px', color: '#333', boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.1)', boxSizing: 'border-box' },
-    accionesModal: { display: 'flex', gap: '10px' },
-    botonModalSecundario: { flex: 1, padding: '15px', borderRadius: '8px', border: 'none', backgroundColor: '#e9dcc9', color: 'var(--color-marron-oscuro)', fontSize: '18px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.16)' },
-    botonModalPrincipal: { flex: 1, padding: '15px', borderRadius: '8px', border: 'none', backgroundColor: 'var(--color-marron-oscuro)', color: 'white', fontSize: '18px', fontWeight: '700', cursor: 'pointer', boxShadow: '0 4px 6px rgba(0,0,0,0.3)' },
-  };
-
   return (
-    <div className="app-shell app-shell--wide" style={styles.container}>
-      <header className="app-header" style={styles.header}>
-        <div style={styles.titleRow}>
-          <button type="button" style={styles.backButton} onClick={onVolver} aria-label="Volver">
+    <div className="app-shell app-shell--wide sucursales-container">
+      <header className="app-header sucursales-header">
+        <div className="sucursales-title-row">
+          <button type="button" className="sucursales-back-button" onClick={onVolver} aria-label="Volver">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <h1 style={styles.title}>Panel del profesor</h1>
+          <h1 className="sucursales-title">Panel del profesor</h1>
         </div>
-        <img src={logoTaller} alt="Logo" style={styles.logo} />
+        <img src={logoTaller} alt="Logo" className="sucursales-logo" />
       </header>
 
-      <main className="app-main content-shell content-shell--lg" style={styles.body}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Sucursales</h2>
+      <main className="app-main content-shell content-shell--lg sucursales-body">
+        <h2 className="sucursales-titulo-seccion">Sucursales</h2>
         <div className="cards-grid cards-grid--2">
           {sucursales.map((sucursal) => (
-            <div key={sucursal.id} style={styles.tarjetaSucursal}>
-              <div style={styles.tarjetaHeader}>
-                <div style={styles.tarjetaContenido} onClick={() => onSeleccionarSucursal(sucursal.id)}>
-                  <h3 style={{ color: 'var(--color-marron-oscuro)', margin: 0 }}>{sucursal.nombre}</h3>
-                  <p style={styles.direccion}>{sucursal.direccion}</p>
-                  <p style={styles.subtitulo}>Tocá para ver las clases de esta sucursal</p>
+            <div key={sucursal.id} className="sucursales-tarjeta-sucursal">
+              <div className="sucursales-tarjeta-header">
+                <div className="sucursales-tarjeta-contenido" onClick={() => onSeleccionarSucursal(sucursal.id)}>
+                  <h3 className="sucursales-nombre">{sucursal.nombre}</h3>
+                  <p className="sucursales-direccion">{sucursal.direccion}</p>
+                  <p className="sucursales-subtitulo">Tocá para ver las clases de esta sucursal</p>
                 </div>
-                <div style={styles.acciones}>
-                  <button type="button" style={styles.botonSecundario} onClick={() => abrirModalEdicion(sucursal)}>Editar</button>
-                  <button type="button" style={styles.botonEliminar} onClick={() => eliminarSucursal(sucursal)}>Eliminar</button>
+                <div className="sucursales-acciones">
+                  <button type="button" className="sucursales-boton-secundario" onClick={() => abrirModalEdicion(sucursal)}>Editar</button>
+                  <button type="button" className="sucursales-boton-eliminar" onClick={() => eliminarSucursal(sucursal)}>Eliminar</button>
                 </div>
               </div>
             </div>
@@ -128,28 +103,28 @@ function ProfesorSucursales({ sucursales, onVolver, onAgregarSucursal, onEditarS
         <BotonPrincipal text="+ Nueva Sucursal" onClick={abrirModalNuevaSucursal} />
       </main>
 
-      <div style={styles.overlay}>
-        <div style={styles.modal}>
-          <h3 style={styles.tituloModal}>
+      <div className={`sucursales-overlay ${mostrarModal ? 'sucursales-overlay--visible' : ''}`}>
+        <div className="sucursales-modal">
+          <h3 className="sucursales-titulo-modal">
             {sucursalEditando ? 'Editar sucursal' : 'Agregar sucursal'}
           </h3>
-          <label style={styles.labelForm}>Nombre de la sucursal</label>
+          <label className="sucursales-label-form">Nombre de la sucursal</label>
           <input
-            style={styles.inputNombre}
+            className="sucursales-input-nombre"
             placeholder="Nombre de la sucursal..."
             value={nombreSucursal}
             onChange={(e) => setNombreSucursal(e.target.value)}
           />
-          <label style={styles.labelForm}>Dirección</label>
+          <label className="sucursales-label-form">Dirección</label>
           <input
-            style={styles.inputDireccion}
+            className="sucursales-input-direccion"
             placeholder="Direccion de la sucursal..."
             value={direccionSucursal}
             onChange={(e) => setDireccionSucursal(e.target.value)}
           />
-          <div style={styles.accionesModal}>
-            <button onClick={cerrarModal} style={styles.botonModalSecundario}>Cancelar</button>
-            <button onClick={guardarSucursal} style={styles.botonModalPrincipal}>
+          <div className="sucursales-acciones-modal">
+            <button onClick={cerrarModal} className="sucursales-boton-modal-secundario">Cancelar</button>
+            <button onClick={guardarSucursal} className="sucursales-boton-modal-principal">
               {sucursalEditando ? 'Guardar cambios' : 'Guardar sucursal'}
             </button>
           </div>

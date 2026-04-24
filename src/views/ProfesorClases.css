@@ -1,3 +1,10 @@
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Popups de crear/editar clase ocupan el 70% del ancho en pantallas medianas */
+  .clases-modal {
+    width: 70vw !important;
+    max-width: 900px !important;
+  }
+}
 @media (min-width: 1024px) {
   /* Texto de aclaración en el popup: un poco más grande */
   .clases-form-grid .clases-texto-ayuda-mini {

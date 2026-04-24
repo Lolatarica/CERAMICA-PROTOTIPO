@@ -1,0 +1,454 @@
+@media (min-width: 1024px) {
+  .alumnos-lista-contenedor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 32px;
+    align-items: start;
+  }
+  .alumnos-contador {
+    grid-column: 1 / 3;
+  }
+}
+@media (min-width: 1024px) {
+  .alumnos-form-grid--editar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 32px;
+    align-items: start;
+  }
+  .alumnos-form-grid--editar > .InputSimple:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .alumnos-form-grid--editar > .InputSimple:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .alumnos-form-grid--editar > .InputSimple:nth-child(3) { grid-column: 1 / 3; grid-row: 2; }
+  .alumnos-form-grid--editar .alumnos-acciones-modal { grid-column: 1 / 3; margin-top: 24px; }
+}
+@media (min-width: 1024px) {
+  .alumnos-form-grid--crear {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto min-content min-content min-content min-content auto;
+    gap: 24px 32px;
+    row-gap: 8px;
+    align-items: start;
+  }
+  .alumnos-form-grid--crear > .InputSimple:nth-child(1) { grid-column: 1; grid-row: 1; }
+  .alumnos-form-grid--crear > .InputSimple:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .alumnos-form-grid--crear > .InputSimple:nth-child(3) { grid-column: 1 / 3; grid-row: 2; }
+
+
+  .alumnos-form-grid--crear .alumnos-etiqueta-form[for="sucursal"] { grid-column: 1; grid-row: 3; align-self: end; margin-bottom: 2px; }
+  .alumnos-form-grid--crear .alumnos-select-formulario.sucursal { grid-column: 1; grid-row: 4; margin-top: 0; }
+  .alumnos-form-grid--crear .alumnos-etiqueta-form[for="taller"] { grid-column: 2; grid-row: 3; align-self: end; margin-bottom: 2px; }
+  .alumnos-form-grid--crear .alumnos-select-formulario.taller { grid-column: 2; grid-row: 4; margin-top: 0; }
+
+  .alumnos-form-grid--crear .alumnos-etiqueta-form[for="horario"] { grid-column: 1 / 3; grid-row: 5; align-self: end; margin-bottom: 2px; }
+  .alumnos-form-grid--crear .alumnos-select-formulario.horario { grid-column: 1 / 3; grid-row: 6; margin-top: 0; }
+
+  .alumnos-form-grid--crear .alumnos-texto-error { grid-column: 1 / 3; }
+  .alumnos-form-grid--crear .alumnos-acciones-modal { grid-column: 1 / 3; margin-top: 24px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  /* Popup de crear/editar alumno ocupa el 70% en pantallas medianas */
+  .alumnos-modal-edicion {
+    width: 70vw !important;
+    max-width: 900px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Popup de crear/editar alumno ocupa el 80% en pantallas grandes */
+  .alumnos-modal-edicion {
+    width: 80vw !important;
+    max-width: 1100px !important;
+  }
+}
+/* =========================================
+   Estilos específicos de ProfesorAlumnos
+   ========================================= */
+
+.alumnos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-crema);
+  position: relative;
+}
+
+.alumnos-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.alumnos-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alumnos-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 24px;
+  margin: 0;
+}
+
+.alumnos-back-button {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #E0C9A6;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alumnos-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 2px;
+  object-fit: cover;
+}
+
+.alumnos-body {
+  padding: 20px;
+  flex: 1;
+}
+
+.alumnos-titulo-seccion {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Filtros */
+.alumnos-seccion-filtros {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alumnos-input-busqueda {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  font-family: var(--font-principal);
+}
+
+.alumnos-fila-selects {
+  display: flex;
+  gap: 10px;
+}
+
+.alumnos-select-filtro {
+  flex: 1;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background-color: white;
+  font-size: 16px;
+  font-family: var(--font-principal);
+}
+
+/* Lista de Alumnos */
+.alumnos-lista-contenedor {
+  padding-bottom: 20px;
+}
+
+.alumnos-contador {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 10px;
+}
+
+.alumnos-estado-vacio {
+  text-align: center;
+  margin-top: 50px;
+  color: #999;
+}
+
+/* Tarjeta Alumno */
+.alumnos-tarjeta-alumno {
+  background-color: white;
+  padding: 20px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+  position: relative;
+  cursor: pointer;
+}
+
+.alumnos-nombre {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.alumnos-dato {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin: 4px 0;
+  color: #222;
+}
+
+.alumnos-icono-dato {
+  width: 16px;
+  height: 16px;
+  color: #111;
+  flex-shrink: 0;
+}
+
+/* Asignaciones */
+.alumnos-asignaciones-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+  width: 100%;
+}
+
+.alumnos-asignacion-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #f7f0e6;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.alumnos-asignacion-texto {
+  flex: 1;
+  min-width: 0;
+  padding: 2px 0;
+  color: #2f261e;
+}
+
+.alumnos-asignacion-clase {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2f261e;
+  line-height: 1.35;
+}
+
+.alumnos-asignacion-meta {
+  margin: 3px 0 0 0;
+  font-size: 12px;
+  color: #6f6254;
+  line-height: 1.35;
+}
+
+.alumnos-boton-quitar-asignacion {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid #d5c2ac;
+  background-color: white;
+  color: #4e3828;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alumnos-texto-sin-clase {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #8a7a6d;
+}
+
+/* Botones en Tarjeta */
+.alumnos-botones-tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  width: 56px;
+}
+
+.alumnos-boton-editar {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  background-color: var(--color-marron-oscuro);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  cursor: pointer;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.14);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.alumnos-icono-boton-editar {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* Botón Flotante Agregar */
+.alumnos-boton-agregar-alumno {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-marron-oscuro);
+  color: white;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 18px 34px rgba(0,0,0,0.22);
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Modal Edición */
+.alumnos-overlay-edicion {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(51, 38, 28, 0.48);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1100;
+  padding: 18px;
+}
+
+.alumnos-modal-edicion {
+  width: 100%;
+  max-width: 560px;
+  background-color: var(--color-crema);
+  border-radius: 28px;
+  padding: 24px 20px 22px;
+  box-shadow: 0 22px 40px rgba(0,0,0,0.18);
+}
+
+.alumnos-header-modal {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.alumnos-titulo-modal {
+  margin: 0;
+  color: var(--color-marron-oscuro);
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.alumnos-subtitulo-modal {
+  margin: 8px 0 0 0;
+  color: #7a6754;
+  font-size: 14px;
+}
+
+.alumnos-cerrar-modal {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: #7a6754;
+  cursor: pointer;
+  font-size: 28px;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+}
+
+/* Formularios */
+.alumnos-etiqueta-form {
+  display: block;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.alumnos-select-formulario {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 16px;
+  border: 1px solid #e7dfd5;
+  background-color: var(--color-blanco);
+  font-size: 16px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.06);
+  margin-bottom: 6px;
+  color: #4b4138;
+}
+
+.alumnos-select-formulario--error {
+  border: 1px solid #d93025;
+}
+
+.alumnos-texto-error {
+  color: #d93025;
+  font-size: 13px;
+  margin: 0 0 18px 0;
+}
+
+/* Botones Modal */
+.alumnos-acciones-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.alumnos-boton-modal-secundario {
+  width: 100%;
+  padding: 15px;
+  background-color: #e9dcc9;
+  color: var(--color-marron-oscuro);
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.16);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.alumnos-boton-modal-principal {
+  width: 100%;
+  padding: 15px;
+  background-color: var(--color-marron-oscuro);
+  color: var(--color-blanco);
+  border: none;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}

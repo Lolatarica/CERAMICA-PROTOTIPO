@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import logoTaller from '../assets/logo_taller.png';
 import AlumnoDetallePanel from '../components/AlumnoDetallePanel';
 import { formatClassTimeRange } from '../utils/timeFormat';
+import './ProfesorPagos.css'; // <-- Acordate de crear e importar este archivo
 
 function ProfesorPagos({
   alumnos = [],
@@ -80,64 +81,37 @@ function ProfesorPagos({
     onActualizarEstadoPago?.(alumnoId, filtroMes, siguienteEstado);
   };
 
-  const styles = {
-    container: { display: 'flex', flexDirection: 'column', minHeight: '100vh', margin: '0 auto', backgroundColor: 'var(--color-crema)', position: 'relative' },
-    header: { backgroundColor: 'var(--color-marron-oscuro)', padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 40 },
-    titleRow: { display: 'flex', alignItems: 'center', gap: '10px' },
-    title: { color: '#E0C9A6', fontFamily: 'var(--font-titulo)', fontSize: '24px', margin: 0 },
-    backButton: { width: '24px', height: '24px', padding: 0, border: 'none', backgroundColor: 'transparent', color: '#E0C9A6', cursor: 'pointer', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-    logo: { width: '60px', height: '60px', borderRadius: '50%', backgroundColor: 'white', padding: '2px', objectFit: 'cover' },
-    body: { padding: '20px', flex: 1 },
-    seccionFiltros: { marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' },
-    inputBusqueda: { width: '100%', padding: '12px', borderRadius: '12px', border: '1px solid #ddd', fontSize: '16px', fontFamily: 'var(--font-principal)' },
-    filaSelects: { display: 'flex', gap: '10px' },
-    selectFiltro: { flex: 1, padding: '12px', borderRadius: '12px', border: '1px solid #ddd', backgroundColor: 'white', fontSize: '16px', fontFamily: 'var(--font-principal)' },
-    btnPendientes: { padding: '12px', borderRadius: '12px', border: 'none', cursor: 'pointer', fontSize: '13px', fontWeight: '700', transition: 'all 0.2s ease' },
-    tarjetaPago: { backgroundColor: 'white', padding: '18px', borderRadius: '18px', marginBottom: '14px', boxShadow: '0 12px 30px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column', gap: '10px', cursor: 'pointer' },
-    infoAlumno: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '12px' },
-    nombre: { fontSize: '18px', fontWeight: '700', margin: 0, color: '#333' },
-    estadoBadge: { fontSize: '11px', fontWeight: '800', padding: '6px 10px', borderRadius: '999px', flexShrink: 0 },
-    asignacionesLista: { display: 'flex', flexDirection: 'column', gap: '8px' },
-    asignacionItem: { backgroundColor: '#f7f0e6', borderRadius: '14px', padding: '12px 14px' },
-    claseTxt: { fontSize: '13px', color: '#2f261e', margin: 0, fontWeight: '700' },
-    metaTxt: { fontSize: '12px', color: '#6f6254', margin: '4px 0 0 0' },
-    labelMetodoPago: { display: 'block', fontSize: '12px', fontWeight: '700', color: '#6f6254', margin: '10px 0 6px 0' },
-    selectMetodoPago: { width: '100%', padding: '10px 12px', borderRadius: '12px', border: '1px solid #ddd', backgroundColor: 'white', fontSize: '14px', color: '#333' },
-    botonTogglePago: { width: '100%', padding: '14px', borderRadius: '14px', border: 'none', fontSize: '14px', fontWeight: '800', cursor: 'pointer' },
-    botonComprobanteInicial: { width: '100%', padding: '9px 8px', minHeight: '56px', borderRadius: '14px', border: 'none', backgroundColor: '#d9eef7', color: '#205b73', fontWeight: '800', fontSize: '11px', lineHeight: '1.15', cursor: 'pointer', boxShadow: '0 8px 18px rgba(120, 180, 206, 0.24)' },
-  };
-
   return (
-    <div className="app-shell app-shell--wide" style={styles.container}>
-      <header className="app-header" style={styles.header}>
-        <div style={styles.titleRow}>
-          <button type="button" style={styles.backButton} onClick={onVolver} aria-label="Volver">
+    <div className="app-shell app-shell--wide pagos-container">
+      <header className="app-header pagos-header">
+        <div className="pagos-title-row">
+          <button type="button" className="pagos-back-button" onClick={onVolver} aria-label="Volver">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M15 6L9 12L15 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </button>
-          <h1 style={styles.title}>Panel del profesor</h1>
+          <h1 className="pagos-title">Panel del profesor</h1>
         </div>
-        <img src={logoTaller} alt="Logo" style={styles.logo} />
+        <img src={logoTaller} alt="Logo" className="pagos-logo" />
       </header>
 
-      <main className="app-main content-shell content-shell--xl" style={styles.body}>
-        <h2 style={{ textAlign: 'center', marginBottom: '20px', color: '#333' }}>Control de Pagos</h2>
+      <main className="app-main content-shell content-shell--xl pagos-body">
+        <h2 className="pagos-titulo-seccion">Control de Pagos</h2>
 
-        <section className="filter-grid filter-grid--2 filter-grid--3" style={styles.seccionFiltros}>
+        <section className="filter-grid filter-grid--2 filter-grid--3 pagos-seccion-filtros">
           <input
-            style={styles.inputBusqueda}
+            className="pagos-input-busqueda"
             placeholder="Buscar alumno por nombre..."
             value={busqueda}
             onChange={(e) => setBusqueda(e.target.value)}
           />
-          <div style={styles.filaSelects}>
-            <select style={styles.selectFiltro} value={filtroMes} onChange={(e) => setFiltroMes(e.target.value)}>
+          <div className="pagos-fila-selects">
+            <select className="pagos-select-filtro" value={filtroMes} onChange={(e) => setFiltroMes(e.target.value)}>
               {mesesPago.map((mes) => (
                 <option key={mes} value={mes}>{mes}</option>
               ))}
             </select>
-            <select style={styles.selectFiltro} value={filtroClase} onChange={(e) => setFiltroClase(e.target.value)}>
+            <select className="pagos-select-filtro" value={filtroClase} onChange={(e) => setFiltroClase(e.target.value)}>
               <option value="todas">Todas las clases</option>
               {clases.map((clase) => (
                 <option key={clase.id} value={clase.id}>{clase.nombre}</option>
@@ -145,62 +119,57 @@ function ProfesorPagos({
             </select>
           </div>
           <button
-            style={{
-              ...styles.btnPendientes,
-              backgroundColor: verSoloPendientes ? '#A95C5C' : '#EAEAEA',
-              color: verSoloPendientes ? 'white' : '#666'
-            }}
+            className={`pagos-btn-pendientes ${verSoloPendientes ? 'pagos-btn-pendientes--activo' : 'pagos-btn-pendientes--inactivo'}`}
             onClick={() => setVerSoloPendientes(!verSoloPendientes)}
           >
             {verSoloPendientes ? 'Viendo solo deuda y comprobantes' : 'Ver todos los estados'}
           </button>
         </section>
 
-        <div>
-          <p style={{ fontSize: '12px', color: '#888', marginBottom: '10px' }}>
+        <div className="pagos-lista-contenedor">
+          <p className="pagos-resultados-txt">
             Resultados: {resumenPagos.length} alumnos
           </p>
 
           {resumenPagos.map(({ alumno, estado, metodoPago, asignaciones }) => {
             const esPagado = estado === 'pagado';
             const esEsperandoComprobante = estado === 'esperandoComprobante';
-            const badgeStyle = esPagado
-              ? { backgroundColor: '#E8F5E9', color: '#2E7D32' }
-              : esEsperandoComprobante
-                ? { backgroundColor: '#FFF8E1', color: '#F57F17' }
-                : { backgroundColor: '#FFEBEE', color: '#C62828' };
+            
+            let badgeClass = 'pagos-estado-badge--deuda';
+            if (esPagado) badgeClass = 'pagos-estado-badge--pagado';
+            else if (esEsperandoComprobante) badgeClass = 'pagos-estado-badge--revisar';
 
             return (
-              <div key={alumno.id} style={styles.tarjetaPago} onClick={() => setAlumnoDetalleId(alumno.id)}>
-                <div style={styles.infoAlumno}>
-                  <h3 style={styles.nombre}>{alumno.nombre}</h3>
-                  <span style={{ ...styles.estadoBadge, ...badgeStyle }}>
+              <div key={alumno.id} className="pagos-tarjeta-pago" onClick={() => setAlumnoDetalleId(alumno.id)}>
+                <div className="pagos-info-alumno">
+                  <h3 className="pagos-nombre">{alumno.nombre}</h3>
+                  <span className={`pagos-estado-badge ${badgeClass}`}>
                     {esPagado ? 'PAGO' : esEsperandoComprobante ? 'REVISAR' : 'DEUDA'}
                   </span>
                 </div>
 
-                <div style={styles.asignacionesLista}>
+                <div className="pagos-asignaciones-lista">
                   {asignaciones.length > 0 ? asignaciones.map((asignacion) => {
                     const detalle = describirAsignacion(asignacion);
 
                     return (
-                      <div key={`${alumno.id}-${asignacion.sucursalId}-${asignacion.claseId}-${asignacion.turnoId}`} style={styles.asignacionItem}>
-                        <p style={styles.claseTxt}>{detalle.clase}</p>
-                        <p style={styles.metaTxt}>{detalle.sucursal}</p>
-                        <p style={styles.metaTxt}>{detalle.horario}</p>
+                      <div key={`${alumno.id}-${asignacion.sucursalId}-${asignacion.claseId}-${asignacion.turnoId}`} className="pagos-asignacion-item">
+                        <p className="pagos-clase-txt">{detalle.clase}</p>
+                        <p className="pagos-meta-txt">{detalle.sucursal}</p>
+                        <p className="pagos-meta-txt">{detalle.horario}</p>
                       </div>
                     );
                   }) : (
-                    <div style={styles.asignacionItem}>
-                      <p style={styles.claseTxt}>Sin clase asignada</p>
+                    <div className="pagos-asignacion-item">
+                      <p className="pagos-clase-txt">Sin clase asignada</p>
                     </div>
                   )}
                 </div>
 
                 <div onClick={(event) => event.stopPropagation()}>
-                  <label style={styles.labelMetodoPago}>Modo de pago</label>
+                  <label className="pagos-label-metodo-pago">Modo de pago</label>
                   <select
-                    style={styles.selectMetodoPago}
+                    className="pagos-select-metodo-pago"
                     value={metodoPago}
                     onChange={(event) => onActualizarMetodoPago?.(alumno.id, filtroMes, event.target.value)}
                   >
@@ -213,7 +182,7 @@ function ProfesorPagos({
                   {esEsperandoComprobante ? (
                     <button
                       type="button"
-                      style={styles.botonComprobanteInicial}
+                      className="pagos-boton-comprobante-inicial"
                       onClick={() => onActualizarEstadoPago?.(alumno.id, filtroMes, 'pendiente')}
                     >
                       Comprobante inicial
@@ -221,14 +190,7 @@ function ProfesorPagos({
                   ) : (
                     <button
                       type="button"
-                      style={{
-                        ...styles.botonTogglePago,
-                        backgroundColor: esPagado ? '#6f9f72' : '#b75b52',
-                        color: 'white',
-                        boxShadow: esPagado
-                          ? '0 10px 18px rgba(111, 159, 114, 0.24)'
-                          : '0 10px 18px rgba(183, 91, 82, 0.24)',
-                      }}
+                      className={`pagos-boton-toggle-pago ${esPagado ? 'pagos-boton-toggle-pago--pagado' : 'pagos-boton-toggle-pago--deuda'}`}
                       onClick={() => toggleEstadoPago(alumno.id, estado)}
                     >
                       {esPagado ? 'Pago' : 'Deuda'}
@@ -240,7 +202,7 @@ function ProfesorPagos({
           })}
 
           {resumenPagos.length === 0 && (
-            <p style={{ textAlign: 'center', marginTop: '30px', color: '#999' }}>
+            <p className="pagos-empty-state">
               No se encontraron coincidencias.
             </p>
           )}

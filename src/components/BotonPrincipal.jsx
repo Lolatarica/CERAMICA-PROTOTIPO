@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 function BotonPrincipal({ text, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
   const buttonStyle = {
-    width: '95%',
+    width: '95%', // Solo móviles, override en CSS para md/lg
     padding: '15px',
     backgroundColor: 'var(--color-marron-oscuro)',
     color: 'var(--color-blanco)',
@@ -15,12 +15,13 @@ function BotonPrincipal({ text, onClick }) {
     cursor: 'pointer',
     boxShadow: isHovered ? '0 8px 16px rgba(0,0,0,0.35)' : '0 4px 6px rgba(0,0,0,0.3)',
     transform: isHovered ? 'scale(1.03)' : 'scale(1)',
-    transition: 'transform 0.2s ease, box-shadow 0.2s ease', // Efecto suave
+    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
     marginTop: '10px'
   };
 
   return (
     <button
+      className="boton-principal"
       style={buttonStyle}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

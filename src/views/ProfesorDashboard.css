@@ -176,7 +176,7 @@
 }
 
 /* Pantallas grandes: agendamientos recientes 100% y botones debajo en dos columnas */
-@media (min-width: 1200px) {
+@media (min-width: 1030px) {
   .dashboard-table-fullwidth .dashboard-table,
   .dashboard-table-fullwidth .dashboard-table th,
   .dashboard-table-fullwidth .dashboard-table td {

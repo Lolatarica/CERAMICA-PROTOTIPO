@@ -1,0 +1,245 @@
+@media (min-width: 1024px) {
+  .confirmacion-body {
+    width: 100%;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+}
+/* =========================================
+   Estilos específicos de AlumnoConfirmacion
+   ========================================= */
+
+.confirmacion-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0 auto;
+  position: relative;
+  background-color: var(--color-crema);
+}
+
+.confirmacion-header {
+  background-color: var(--color-marron-oscuro);
+  padding: 40px 20px 20px 20px;
+  text-align: center;
+  top: 0;
+  z-index: 40;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.confirmacion-logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-color: white;
+  padding: 5px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  object-fit: cover;
+}
+
+.confirmacion-title {
+  color: #E0C9A6;
+  font-family: var(--font-titulo);
+  font-size: 28px;
+  margin: 2px 0 0 0;
+}
+
+.confirmacion-body {
+  padding: 46px 30px 30px;
+  flex: 1;
+  display: block;
+}
+
+.confirmacion-section-summary,
+.confirmacion-section-payment {
+  width: 100%;
+}
+
+.confirmacion-texto-principal {
+  font-size: 26px;
+  text-align: center;
+  color: #161616;
+  margin-bottom: 18px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.confirmacion-texto-secundario {
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  max-width: 380px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Tarjeta de Resumen */
+.confirmacion-resumen-card {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.92);
+  border-radius: 20px;
+  padding: 20px 18px;
+  box-sizing: border-box;
+  box-shadow: 0 10px 24px rgba(93, 67, 51, 0.16);
+  margin-bottom: 0;
+}
+
+.confirmacion-resumen-fila {
+  display: block;
+}
+
+.confirmacion-resumen-fila-separada {
+  display: block;
+  margin-top: 14px;
+}
+
+.confirmacion-resumen-texto {
+  font-size: 18px;
+  color: #6c7280;
+  line-height: 1.35;
+}
+
+.confirmacion-resumen-label {
+  color: #262626;
+  font-weight: 800;
+}
+
+/* Sección de Pagos */
+.confirmacion-paso-texto {
+  font-size: 18px;
+  text-align: left;
+  color: var(--color-marron-oscuro);
+  font-weight: 400;
+  margin-top: 18px;
+  margin-bottom: 26px;
+  width: 100%;
+}
+
+.confirmacion-paso-destacado {
+  font-weight: 800;
+}
+
+.confirmacion-paso-descripcion {
+  font-weight: 400;
+}
+
+.confirmacion-texto-pago {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-top: 6px;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: left;
+}
+
+.confirmacion-alias-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 2px solid #e2cfb7;
+  border-radius: 16px;
+  padding: 16px 14px;
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 0;
+}
+
+.confirmacion-alias-texto {
+  font-size: 18px;
+  color: #222;
+  line-height: 1.4;
+  margin: 0;
+  flex: 1;
+}
+
+.confirmacion-alias-valor {
+  font-weight: 800;
+}
+
+.confirmacion-boton-copiar {
+  border: none;
+  background-color: #f5e6d2;
+  color: #1d1d1d;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 8px 18px rgba(200, 169, 126, 0.22);
+  white-space: nowrap;
+}
+
+/* Botón de WhatsApp */
+.confirmacion-botones-container {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.confirmacion-boton {
+  padding: 18px 28px;
+  border-radius: 999px;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 22px rgba(37, 211, 102, 0.24);
+  flex: 0 1 340px;
+  min-width: 250px;
+}
+
+.confirmacion-boton-whatsapp {
+  background: linear-gradient(135deg, #4cd97b 0%, #25D366 100%);
+  color: white;
+}
+
+.confirmacion-boton-whatsapp:hover {
+  opacity: 0.9;
+}
+
+.confirmacion-icono-boton-whatsapp {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.confirmacion-aclaracion-texto {
+  font-size: 13px;
+  color: #454545;
+  line-height: 1.4;
+  margin-top: 16px;
+  width: 100%;
+  text-align: center;
+}
+
+.confirmacion-saludo-cursiva {
+  font-family: var(--font-titulo);
+  font-size: 40px;
+  color: var(--color-marron-oscuro);
+  margin-top: 22px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.confirmacion-whatsapp {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+}
