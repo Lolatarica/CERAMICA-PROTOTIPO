@@ -130,6 +130,52 @@
   word-break: break-word;
 }
 
+.alumno-detalle-edit-button {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background-color: var(--color-marron-oscuro);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.alumno-detalle-info-edit-box {
+  background-color: #f3eadf;
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.alumno-detalle-info-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.alumno-detalle-info-cancel,
+.alumno-detalle-info-save {
+  flex: 1;
+  border-radius: 10px;
+  border: none;
+  padding: 11px 12px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.alumno-detalle-info-cancel {
+  background-color: #e7d9c8;
+  color: #4e3828;
+}
+
+.alumno-detalle-info-save {
+  background-color: var(--color-marron-oscuro);
+  color: #fff;
+}
+
 /* Clases Asignadas */
 .alumno-detalle-assignment-list {
   display: flex;
@@ -260,6 +306,34 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.alumno-detalle-payment-class-filter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.alumno-detalle-payment-class-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-marron-oscuro);
+}
+
+.alumno-detalle-payment-class-select {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  background-color: var(--color-blanco);
+  font-size: 16px;
+  color: #333;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .alumno-detalle-payment-row {

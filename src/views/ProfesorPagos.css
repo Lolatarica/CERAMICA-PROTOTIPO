@@ -47,9 +47,9 @@
 }
 
 .pagos-back-button {
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
   border: none;
   background-color: transparent;
   color: #E0C9A6;
@@ -130,6 +130,13 @@
 .pagos-btn-pendientes--inactivo {
   background-color: #EAEAEA;
   color: #666;
+}
+
+.pagos-texto-aclaracion {
+  margin: -4px 0 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #6f6254;
 }
 
 .pagos-resultados-txt {

@@ -171,9 +171,9 @@
 }
 
 .clases-back-button {
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
   border: none;
   background-color: transparent;
   color: #E0C9A6;
@@ -228,6 +228,13 @@
   background-color: var(--color-blanco);
   font-size: 16px;
   font-family: var(--font-principal);
+}
+
+.clases-texto-aclaracion {
+  margin: -4px 0 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #6f6254;
 }
 
 .clases-estado-vacio {

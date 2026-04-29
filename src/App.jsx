@@ -1,5 +1,5 @@
 // src/App.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 // Importamos todas las vistas que creamos
 import AlumnoLogin from './views/AlumnoLogin'
 import AlumnoAgendar from './views/AlumnoAgendar'
@@ -75,6 +75,10 @@ function sincronizarAsignacionPrincipal(alumno = {}) {
   }
 }
 
+function obtenerIdsClaseAlumno(alumno = {}) {
+  return Array.from(new Set(normalizarAsignacionesAlumno(alumno).map((asignacion) => asignacion.claseId).filter(Boolean)))
+}
+
 const MESES_PAGO = ['Enero 2026', 'Febrero 2026', 'Marzo 2026', 'Abril 2026', 'Mayo 2026', 'Junio 2026']
 
 function crearPerfilPagoInicial(indice = 0) {
@@ -100,9 +104,33 @@ function crearPerfilPagoInicial(indice = 0) {
   }
 }
 
+function clonarPerfilPago(perfilPago = crearPerfilPagoInicial()) {
+  return {
+    meses: {
+      ...(perfilPago.meses || {}),
+    },
+    metodosPagoPorMes: {
+      ...(perfilPago.metodosPagoPorMes || {}),
+    },
+  }
+}
+
+function crearPerfilPagoAlumno(alumno = {}, indice = 0) {
+  const perfilBase = crearPerfilPagoInicial(indice)
+  const porClase = obtenerIdsClaseAlumno(alumno).reduce((acumulado, claseId) => {
+    acumulado[claseId] = clonarPerfilPago(perfilBase)
+    return acumulado
+  }, {})
+
+  return {
+    ...perfilBase,
+    porClase,
+  }
+}
+
 function crearPagosIniciales(alumnos = []) {
   return alumnos.reduce((acumulado, alumno, indice) => {
-    acumulado[alumno.id] = crearPerfilPagoInicial(indice)
+    acumulado[alumno.id] = crearPerfilPagoAlumno(alumno, indice)
     return acumulado
   }, {})
 }
@@ -111,7 +139,11 @@ function App() {
   // --- ESTADOS DE NAVEGACIÓN ---
   // Controla qué pantalla se ve: 'login', 'agendar', 'confirmacion', 'profesor', 'profesor-clases', 'profesor-cupos', 'profesor-alumnos'
   const [vistaActual, setVistaActual] = useState('login') // Controla qué pantalla se ve: 'login', 'agendar', 'confirmacion', 'profesor', 'profesor-clases', 'profesor-cupos', 'profesor-alumnos'
-  
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [vistaActual])
+
   // Guardan datos temporales para pasar entre pantallas
   const [claseParaVer, setClaseParaVer] = useState('') // Guardan datos temporales para pasar entre pantallas
   const [sucursalParaVer, setSucursalParaVer] = useState('')
@@ -425,7 +457,7 @@ function App() {
 
     setPagosAlumnos((pagosActuales) => ({
       ...pagosActuales,
-      [idAlumno]: pagosActuales[idAlumno] || crearPerfilPagoInicial(Object.keys(pagosActuales).length),
+      [idAlumno]: pagosActuales[idAlumno] || crearPerfilPagoAlumno(alumnoFinal, Object.keys(pagosActuales).length),
     }))
 
     setDetallesTurnosPorSucursalYClase((detallesActuales) => {
@@ -520,6 +552,27 @@ function App() {
       return nuevosDetalles
     })
 
+    if (nuevaAsignacion?.claseId) {
+      setPagosAlumnos((pagosActuales) => {
+        const pagoActual = pagosActuales[alumnoId] || crearPerfilPagoInicial()
+
+        if (pagoActual?.porClase?.[nuevaAsignacion.claseId]) {
+          return pagosActuales
+        }
+
+        return {
+          ...pagosActuales,
+          [alumnoId]: {
+            ...pagoActual,
+            porClase: {
+              ...(pagoActual.porClase || {}),
+              [nuevaAsignacion.claseId]: clonarPerfilPago(pagoActual),
+            },
+          },
+        }
+      })
+    }
+
     return true
   }
 
@@ -551,7 +604,7 @@ function App() {
     })
   }
 
-  const manejarActualizarEstadoPago = (alumnoId, mes, estado) => {
+  const manejarActualizarEstadoPago = (alumnoId, mes, estado, claseId = '') => {
     setPagosAlumnos((pagosActuales) => ({
       ...pagosActuales,
       [alumnoId]: {
@@ -560,11 +613,23 @@ function App() {
           ...(pagosActuales[alumnoId]?.meses || {}),
           [mes]: estado,
         },
+        porClase: claseId
+          ? {
+              ...((pagosActuales[alumnoId] || {}).porClase || {}),
+              [claseId]: {
+                ...(((pagosActuales[alumnoId] || {}).porClase || {})[claseId] || clonarPerfilPago(pagosActuales[alumnoId] || crearPerfilPagoInicial())),
+                meses: {
+                  ...((((pagosActuales[alumnoId] || {}).porClase || {})[claseId] || {}).meses || {}),
+                  [mes]: estado,
+                },
+              },
+            }
+          : ((pagosActuales[alumnoId] || {}).porClase || {}),
       },
     }))
   }
 
-  const manejarActualizarMetodoPago = (alumnoId, mes, metodoPago) => {
+  const manejarActualizarMetodoPago = (alumnoId, mes, metodoPago, claseId = '') => {
     setPagosAlumnos((pagosActuales) => ({
       ...pagosActuales,
       [alumnoId]: {
@@ -576,6 +641,18 @@ function App() {
           ...((pagosActuales[alumnoId] || crearPerfilPagoInicial()).metodosPagoPorMes || {}),
           [mes]: metodoPago,
         },
+        porClase: claseId
+          ? {
+              ...((pagosActuales[alumnoId] || {}).porClase || {}),
+              [claseId]: {
+                ...(((pagosActuales[alumnoId] || {}).porClase || {})[claseId] || clonarPerfilPago(pagosActuales[alumnoId] || crearPerfilPagoInicial())),
+                metodosPagoPorMes: {
+                  ...((((pagosActuales[alumnoId] || {}).porClase || {})[claseId] || {}).metodosPagoPorMes || {}),
+                  [mes]: metodoPago,
+                },
+              },
+            }
+          : ((pagosActuales[alumnoId] || {}).porClase || {}),
       },
     }))
   }
@@ -784,10 +861,18 @@ function App() {
           sucursales={sucursales}
           claseInicial={claseParaVer}
           sucursalInicial={sucursalParaVer}
+          alumnos={alumnos}
           turnosPorSucursalYClase={turnosPorSucursalYClase}
           detallesTurnosPorSucursalYClase={detallesTurnosPorSucursalYClase}
+          pagosAlumnos={pagosAlumnos}
+          mesesPago={MESES_PAGO}
           onActualizarCupos={manejarActualizarCupos}
           onEliminarHorario={manejarEliminarHorario}
+          onAgregarAsignacion={manejarAgregarAsignacionAlumno}
+          onGuardarAlumno={manejarGuardarAlumno}
+          onDesasignarAlumno={manejarDesasignarAlumno}
+          onActualizarEstadoPago={manejarActualizarEstadoPago}
+          onActualizarMetodoPago={manejarActualizarMetodoPago}
           onVolver={() => setVistaActual('profesor')} 
         />
       )}

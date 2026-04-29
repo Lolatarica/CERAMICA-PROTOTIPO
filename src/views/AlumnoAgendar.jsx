@@ -1,5 +1,5 @@
 // src/views/AlumnoAgendar.jsx
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import logoTaller from '../assets/logo_taller.png'; 
 import iconWhatsApp from '../assets/whatsapp.png';
 import BotonPrincipal from '../components/BotonPrincipal';
@@ -12,6 +12,84 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
   const [claseSeleccionada, setClaseSeleccionada] = useState('');
   const [slotSeleccionado, setSlotSeleccionado] = useState('');
   const [mostrarInfoClase, setMostrarInfoClase] = useState(false);
+  const pasoTallerRef = useRef(null);
+  const pasoHorarioRef = useRef(null);
+  const botonAgendarRef = useRef(null);
+  const animacionScrollRef = useRef(null);
+
+  const cancelarAnimacionScroll = () => {
+    if (animacionScrollRef.current !== null) {
+      window.cancelAnimationFrame(animacionScrollRef.current);
+      animacionScrollRef.current = null;
+    }
+  };
+
+  const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  const desplazarASiguientePaso = (elemento, block = 'start') => {
+    if (!elemento || typeof window === 'undefined') {
+      return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      elemento.scrollIntoView({ behavior: 'auto', block });
+      return;
+    }
+
+    cancelarAnimacionScroll();
+
+    const rect = elemento.getBoundingClientRect();
+    const inicio = window.scrollY;
+    const destinoBase = inicio + rect.top;
+    const destino =
+      block === 'center'
+        ? Math.max(0, destinoBase - (window.innerHeight / 2) + (rect.height / 2))
+        : Math.max(0, destinoBase - 12);
+    const distancia = destino - inicio;
+
+    if (Math.abs(distancia) < 3) {
+      return;
+    }
+
+    const duracion = 1450;
+    const inicioTiempo = performance.now();
+
+    const animar = (tiempoActual) => {
+      const progreso = Math.min((tiempoActual - inicioTiempo) / duracion, 1);
+      const progresoSuave = easeInOutCubic(progreso);
+      window.scrollTo(0, inicio + distancia * progresoSuave);
+
+      if (progreso < 1) {
+        animacionScrollRef.current = window.requestAnimationFrame(animar);
+      } else {
+        animacionScrollRef.current = null;
+      }
+    };
+
+    animacionScrollRef.current = window.requestAnimationFrame(animar);
+  };
+
+  const programarScrollPaso = (elemento, block = 'start') => {
+    if (!elemento || typeof window === 'undefined') {
+      return () => {};
+    }
+
+    const timeoutPrincipal = window.setTimeout(() => {
+      desplazarASiguientePaso(elemento, block);
+    }, 460);
+
+    // Segundo ajuste para pantallas medianas donde el alto del bloque termina de cambiar despues.
+    const timeoutAjuste = window.setTimeout(() => {
+      desplazarASiguientePaso(elemento, block);
+    }, 980);
+
+    return () => {
+      window.clearTimeout(timeoutPrincipal);
+      window.clearTimeout(timeoutAjuste);
+    };
+  };
+
+  useEffect(() => () => cancelarAnimacionScroll(), []);
 
   useEffect(() => {
     if (sucursalSeleccionada && !sucursales.some((sucursal) => sucursal.id === sucursalSeleccionada)) {
@@ -32,6 +110,30 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
   useEffect(() => {
     setMostrarInfoClase(false);
   }, [claseSeleccionada]);
+
+  useEffect(() => {
+    if (!sucursalSeleccionada) {
+      return;
+    }
+
+    return programarScrollPaso(pasoTallerRef.current, 'start');
+  }, [sucursalSeleccionada]);
+
+  useEffect(() => {
+    if (!sucursalSeleccionada || !claseSeleccionada) {
+      return;
+    }
+
+    return programarScrollPaso(pasoHorarioRef.current, 'start');
+  }, [sucursalSeleccionada, claseSeleccionada]);
+
+  useEffect(() => {
+    if (!slotSeleccionado || typeof window === 'undefined') {
+      return;
+    }
+
+    return programarScrollPaso(botonAgendarRef.current, 'center');
+  }, [slotSeleccionado]);
 
   const sucursalActual = useMemo(
     () => sucursales.find((sucursal) => sucursal.id === sucursalSeleccionada) || null,
@@ -108,7 +210,10 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
           </select>
         </section>
 
-        <section className={`agendar-bloque-paso ${pasoTallerVisible ? 'agendar-bloque-paso--visible' : 'agendar-bloque-paso--oculto'}`}>
+        <section
+          ref={pasoTallerRef}
+          className={`agendar-bloque-paso ${pasoTallerVisible ? 'agendar-bloque-paso--visible' : 'agendar-bloque-paso--oculto'}`}
+        >
           <h2 className="agendar-titulo-paso">Paso 3: Seleccione el taller al que desea asistir</h2>
           <label className="agendar-label-campo">¿Qué taller querés cursar?*</label>
           <select
@@ -128,7 +233,10 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
           </div>
         </section>
 
-        <section className={`agendar-bloque-paso ${pasoHorarioVisible ? 'agendar-bloque-paso--visible' : 'agendar-bloque-paso--oculto'}`}>
+        <section
+          ref={pasoHorarioRef}
+          className={`agendar-bloque-paso ${pasoHorarioVisible ? 'agendar-bloque-paso--visible' : 'agendar-bloque-paso--oculto'}`}
+        >
           <h2 className="agendar-titulo-paso">Paso 4: Seleccione un horario</h2>
           <p className="agendar-texto-horarios">
             {sucursalActual ? `Horarios disponibles para ${sucursalActual.nombre}.` : 'Seleccione una sucursal para ver los horarios.'}
@@ -142,8 +250,8 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
               compacto
               modoEdicion={false}
               turnoViendoDetalle={slotSeleccionado}
-              onCellClick={(idTurno, hayClase) => {
-                if (hayClase) setSlotSeleccionado(idTurno);
+              onCellClick={(idTurno, hayClase, sinCupo) => {
+                if (hayClase && !sinCupo) setSlotSeleccionado(idTurno);
               }}
             />
           </div>
@@ -163,7 +271,11 @@ function AlumnoAgendar({ clases = [], sucursales = [], turnosPorSucursalYClase =
           </p>
         </section>
 
-        {botonAgendarVisible && <BotonPrincipal text="Agendar" onClick={handleAgendar} />}
+        {botonAgendarVisible && (
+          <div ref={botonAgendarRef} className="agendar-ancla-boton">
+            <BotonPrincipal text="Agendar" onClick={handleAgendar} />
+          </div>
+        )}
       </main>
 
       {mostrarInfoClase && infoClaseActual && (

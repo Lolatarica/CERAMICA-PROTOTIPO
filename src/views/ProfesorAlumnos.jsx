@@ -34,6 +34,52 @@ function ProfesorAlumnos({
     [alumnos, alumnoDetalleId]
   );
 
+  const guardarDatosAlumnoDesdeDetalle = (datosAlumno) => {
+    if (!alumnoSeleccionado) {
+      return {
+        ok: false,
+        mensaje: 'No se encontro el alumno seleccionado.',
+      };
+    }
+
+    const nombre = datosAlumno?.nombre?.trim() || '';
+    const tel = datosAlumno?.tel?.trim() || '';
+    const mail = datosAlumno?.mail?.trim() || '';
+
+    const errores = {
+      nombre: !nombre ? 'Este casillero es obligatorio para continuar' : null,
+      tel: !tel ? 'Este casillero es obligatorio para continuar' : null,
+      mail: !mail
+        ? 'Este casillero es obligatorio para continuar'
+        : !mail.includes('@')
+          ? 'El mail debe incluir una arroba (@)'
+          : null,
+    };
+
+    if (Object.values(errores).some(Boolean)) {
+      return {
+        ok: false,
+        errores,
+      };
+    }
+
+    const guardadoOk = onGuardarAlumno?.({
+      ...alumnoSeleccionado,
+      nombre,
+      tel,
+      mail,
+    });
+
+    if (guardadoOk === false) {
+      return {
+        ok: false,
+        mensaje: 'No se pudieron guardar los cambios del alumno.',
+      };
+    }
+
+    return { ok: true };
+  };
+
   const alumnoEditando = useMemo(
     () => alumnos.find((alumno) => alumno.id === alumnoEditandoId) || null,
     [alumnos, alumnoEditandoId]
@@ -242,6 +288,10 @@ function ProfesorAlumnos({
           </div>
         </section>
 
+        <p className="alumnos-texto-aclaracion">
+          Para ver mas detalle toque el recuadro del alumno.
+        </p>
+
         <div className="alumnos-lista-contenedor">
           <p className="alumnos-contador">
             Mostrando {alumnosFiltrados.length} alumnos
@@ -306,23 +356,6 @@ function ProfesorAlumnos({
                 <p className="alumnos-texto-sin-clase">Todavia no tiene clases asignadas.</p>
               )}
 
-              <div className="alumnos-botones-tarjeta">
-                <button
-                  type="button"
-                  className="alumnos-boton-editar"
-                  title="Editar"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    abrirEdicionAlumno(alumno);
-                  }}
-                >
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="alumnos-icono-boton-editar">
-                    <path d="M4 20h3.8l9.7-9.7-3.8-3.8L4 16.2V20Z" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinejoin="round" />
-                    <path d="M12.9 7.1 16.7 11" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M4 20h5.2" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" />
-                  </svg>
-                </button>
-              </div>
             </div>
           ))}
 
@@ -344,6 +377,7 @@ function ProfesorAlumnos({
           onActualizarEstadoPago={onActualizarEstadoPago}
           onActualizarMetodoPago={onActualizarMetodoPago}
           onQuitarAsignacion={(asignacion) => onDesasignarAlumno?.(alumnoSeleccionado.id, asignacion)}
+          onGuardarDatosAlumno={guardarDatosAlumnoDesdeDetalle}
           onClose={() => setAlumnoDetalleId(null)}
         />
       )}

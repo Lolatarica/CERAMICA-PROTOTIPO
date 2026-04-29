@@ -57,6 +57,11 @@
   margin-bottom: 18px;
 }
 
+.agendar-bloque-paso,
+.agendar-ancla-boton {
+  scroll-margin-top: 18px;
+}
+
 .agendar-bloque-paso--oculto {
   opacity: 0;
   max-height: 0;

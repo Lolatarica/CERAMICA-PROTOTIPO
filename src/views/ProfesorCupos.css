@@ -36,9 +36,9 @@
 }
 
 .cupos-back-button {
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
   border: none;
   background-color: transparent;
   color: #E0C9A6;
@@ -202,10 +202,23 @@
   border-bottom: 1px solid #eee;
 }
 
+.cupos-fila-alumno {
+  cursor: pointer;
+  transition: background-color 0.18s ease;
+}
+
+.cupos-fila-alumno:hover {
+  background-color: #f8f3ec;
+}
+
+.cupos-fila-alumno:focus-visible {
+  outline: 2px solid var(--color-marron-oscuro);
+  outline-offset: -2px;
+}
+
 /* Media query para pantallas grandes: aumentar padding de filas de tabla */
 @media (min-width: 1200px) {
   .cupos-th, .cupos-td {
-    color: red !important;
     padding-top: 28px;
     padding-bottom: 28px;
     font-size: 17px;

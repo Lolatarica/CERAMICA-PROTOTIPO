@@ -88,7 +88,7 @@ function CalendarioCupos({
                     style={estiloCelda}
                     onClick={() => {
                       if (onCellClick) {
-                        if ((hayClase && !sinCupo) || modoEdicion) onCellClick(idTurno, hayClase && !sinCupo);
+                        if (hayClase || modoEdicion) onCellClick(idTurno, hayClase, sinCupo);
                       } else if (onSelectTurno) {
                         if (hayClase && !sinCupo) onSelectTurno(dia, hora);
                       }

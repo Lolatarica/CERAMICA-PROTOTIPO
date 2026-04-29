@@ -1,6 +1,7 @@
 ﻿// src/components/AlumnoDetallePanel.jsx
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CalendarioCupos from './CalendarioCupos'
+import InputSimple from './InputSimple'
 import { formatClassTimeRange } from '../utils/timeFormat'
 import { DIAS_SEMANA, HORAS_BASE, ordenarHoras } from '../utils/agendaConfig'
 import './AlumnoDetallePanel.css' // <-- Importá la hoja de estilos
@@ -14,11 +15,27 @@ function AlumnoDetallePanel({
   mesesPago,
   onActualizarEstadoPago,
   onActualizarMetodoPago,
+  claseInicialPagos,
   onClose,
   onAgregarAsignacion,
   onQuitarAsignacion,
+  onGuardarDatosAlumno,
 }) {
   const [detalleAsignacion, setDetalleAsignacion] = useState({ sucursalId: '', claseId: '', turnoId: '' })
+  const [modoEdicionDatos, setModoEdicionDatos] = useState(false)
+  const [formDatosAlumno, setFormDatosAlumno] = useState({ nombre: '', tel: '', mail: '' })
+  const [erroresDatosAlumno, setErroresDatosAlumno] = useState({})
+  const [claseSeleccionadaPagos, setClaseSeleccionadaPagos] = useState('')
+
+  useEffect(() => {
+    setModoEdicionDatos(false)
+    setErroresDatosAlumno({})
+    setFormDatosAlumno({
+      nombre: alumno?.nombre || '',
+      tel: alumno?.tel || '',
+      mail: alumno?.mail || '',
+    })
+  }, [alumno])
 
   const asignaciones = useMemo(() => {
     if (Array.isArray(alumno?.asignaciones) && alumno.asignaciones.length > 0) {
@@ -31,6 +48,38 @@ function AlumnoDetallePanel({
 
     return []
   }, [alumno])
+
+  const opcionesClasePagos = useMemo(() => {
+    const idsVistos = new Set()
+
+    return asignaciones
+      .filter((asignacion) => {
+        if (!asignacion?.claseId || idsVistos.has(asignacion.claseId)) {
+          return false
+        }
+
+        idsVistos.add(asignacion.claseId)
+        return true
+      })
+      .map((asignacion) => ({
+        claseId: asignacion.claseId,
+        nombre: clases.find((item) => item.id === asignacion.claseId)?.nombre || asignacion.claseId,
+      }))
+  }, [asignaciones, clases])
+
+  useEffect(() => {
+    if (opcionesClasePagos.length === 0) {
+      setClaseSeleccionadaPagos('')
+      return
+    }
+
+    const idsClase = opcionesClasePagos.map((opcion) => opcion.claseId)
+    const claseInicial = claseInicialPagos && idsClase.includes(claseInicialPagos)
+      ? claseInicialPagos
+      : idsClase[0]
+
+    setClaseSeleccionadaPagos((actual) => (actual && idsClase.includes(actual) ? actual : claseInicial))
+  }, [claseInicialPagos, opcionesClasePagos])
 
   const turnosActualesNuevaAsignacion = useMemo(() => {
     if (!detalleAsignacion.sucursalId || !detalleAsignacion.claseId) {
@@ -94,8 +143,70 @@ function AlumnoDetallePanel({
     setDetalleAsignacion({ sucursalId: '', claseId: '', turnoId: '' })
   }
 
-  const getEstadoPago = (mes) => pagosAlumno?.meses?.[mes] || 'pendiente'
-  const getMetodoPagoMes = (mes) => pagosAlumno?.metodosPagoPorMes?.[mes] || 'efectivo'
+  const pagosClaseSeleccionada = useMemo(() => {
+    if (!claseSeleccionadaPagos) {
+      return pagosAlumno
+    }
+
+    return pagosAlumno?.porClase?.[claseSeleccionadaPagos] || pagosAlumno
+  }, [claseSeleccionadaPagos, pagosAlumno])
+
+  const getEstadoPago = (mes) => pagosClaseSeleccionada?.meses?.[mes] || 'pendiente'
+  const getMetodoPagoMes = (mes) => pagosClaseSeleccionada?.metodosPagoPorMes?.[mes] || 'efectivo'
+
+  const handleEditarDatosAlumno = () => {
+    setModoEdicionDatos(true)
+    setErroresDatosAlumno({})
+    setFormDatosAlumno({
+      nombre: alumno?.nombre || '',
+      tel: alumno?.tel || '',
+      mail: alumno?.mail || '',
+    })
+  }
+
+  const handleCancelarEdicionDatos = () => {
+    setModoEdicionDatos(false)
+    setErroresDatosAlumno({})
+    setFormDatosAlumno({
+      nombre: alumno?.nombre || '',
+      tel: alumno?.tel || '',
+      mail: alumno?.mail || '',
+    })
+  }
+
+  const handleCambiarDatoAlumno = (campo, valor) => {
+    setErroresDatosAlumno((actual) => ({
+      ...actual,
+      [campo]: null,
+    }))
+
+    setFormDatosAlumno((actual) => ({
+      ...actual,
+      [campo]: valor,
+    }))
+  }
+
+  const handleGuardarDatosAlumno = () => {
+    if (typeof onGuardarDatosAlumno !== 'function') {
+      return
+    }
+
+    const resultado = onGuardarDatosAlumno(formDatosAlumno)
+
+    if (resultado?.errores) {
+      setErroresDatosAlumno(resultado.errores)
+      return
+    }
+
+    if (resultado?.ok === false || resultado === false) {
+      if (resultado?.mensaje) {
+        alert(resultado.mensaje)
+      }
+      return
+    }
+
+    setModoEdicionDatos(false)
+  }
 
   const getBotonEstado = (estado) => {
     if (estado === 'pagado') {
@@ -135,16 +246,56 @@ function AlumnoDetallePanel({
         </div>
 
         <section className="alumno-detalle-section">
-          <div className="responsive-inline-grid responsive-inline-grid--2 alumno-detalle-info-grid">
-            <div className="alumno-detalle-info-block">
-              <span className="alumno-detalle-info-label">Telefono</span>
-              <span className="alumno-detalle-info-value">{alumno.tel || 'Sin dato'}</span>
+          {modoEdicionDatos ? (
+            <div className="alumno-detalle-info-edit-box">
+              <InputSimple
+                label="Nombre *"
+                placeholder="Nombre del alumno"
+                value={formDatosAlumno.nombre}
+                onChange={(event) => handleCambiarDatoAlumno('nombre', event.target.value)}
+                error={erroresDatosAlumno.nombre}
+              />
+              <InputSimple
+                label="Telefono *"
+                placeholder="Telefono del alumno"
+                value={formDatosAlumno.tel}
+                onChange={(event) => handleCambiarDatoAlumno('tel', event.target.value)}
+                error={erroresDatosAlumno.tel}
+              />
+              <InputSimple
+                label="Mail *"
+                type="email"
+                placeholder="Mail del alumno"
+                value={formDatosAlumno.mail}
+                onChange={(event) => handleCambiarDatoAlumno('mail', event.target.value)}
+                error={erroresDatosAlumno.mail}
+              />
+              <div className="alumno-detalle-info-actions">
+                <button type="button" className="alumno-detalle-info-cancel" onClick={handleCancelarEdicionDatos}>
+                  Cancelar
+                </button>
+                <button type="button" className="alumno-detalle-info-save" onClick={handleGuardarDatosAlumno}>
+                  Guardar cambios
+                </button>
+              </div>
             </div>
-            <div className="alumno-detalle-info-block">
-              <span className="alumno-detalle-info-label">Mail</span>
-              <span className="alumno-detalle-info-value">{alumno.mail || 'Sin dato'}</span>
-            </div>
-          </div>
+          ) : (
+            <>
+              <div className="responsive-inline-grid responsive-inline-grid--2 alumno-detalle-info-grid">
+                <div className="alumno-detalle-info-block">
+                  <span className="alumno-detalle-info-label">Telefono</span>
+                  <span className="alumno-detalle-info-value">{alumno.tel || 'Sin dato'}</span>
+                </div>
+                <div className="alumno-detalle-info-block">
+                  <span className="alumno-detalle-info-label">Mail</span>
+                  <span className="alumno-detalle-info-value">{alumno.mail || 'Sin dato'}</span>
+                </div>
+              </div>
+              <button type="button" className="alumno-detalle-edit-button" onClick={handleEditarDatosAlumno}>
+                Editar alumno
+              </button>
+            </>
+          )}
         </section>
 
         <section className="alumno-detalle-section">
@@ -236,6 +387,23 @@ function AlumnoDetallePanel({
         <section className="alumno-detalle-section">
           <h4 className="alumno-detalle-section-title">Calendario de pagos</h4>
           <div className="alumno-detalle-payment-box">
+            {opcionesClasePagos.length > 1 && (
+              <div className="alumno-detalle-payment-class-filter">
+                <label className="alumno-detalle-payment-class-label" htmlFor="alumno-detalle-clase-pagos-select">
+                  Ver pagos de
+                </label>
+                <select
+                  id="alumno-detalle-clase-pagos-select"
+                  className="alumno-detalle-payment-class-select"
+                  value={claseSeleccionadaPagos}
+                  onChange={(event) => setClaseSeleccionadaPagos(event.target.value)}
+                >
+                  {opcionesClasePagos.map((opcion) => (
+                    <option key={opcion.claseId} value={opcion.claseId}>{opcion.nombre}</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="alumno-detalle-payment-table">
               {mesesPago.map((mes) => {
                 const estado = getEstadoPago(mes)
@@ -250,7 +418,7 @@ function AlumnoDetallePanel({
                       <button
                         type="button"
                         className={`alumno-detalle-payment-button ${botonEstado.clase}`}
-                        onClick={() => onActualizarEstadoPago(alumno.id, mes, botonEstado.siguienteEstado)}
+                        onClick={() => onActualizarEstadoPago(alumno.id, mes, botonEstado.siguienteEstado, claseSeleccionadaPagos)}
                       >
                         {botonEstado.texto}
                       </button>
@@ -260,7 +428,7 @@ function AlumnoDetallePanel({
                       <select
                         className="alumno-detalle-payment-select"
                         value={getMetodoPagoMes(mes)}
-                        onChange={(event) => onActualizarMetodoPago(alumno.id, mes, event.target.value)}
+                        onChange={(event) => onActualizarMetodoPago(alumno.id, mes, event.target.value, claseSeleccionadaPagos)}
                       >
                         <option value="efectivo">Efectivo</option>
                         <option value="cuentaBancaria">Cuenta bancaria</option>

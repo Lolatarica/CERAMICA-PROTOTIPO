@@ -51,9 +51,9 @@
 }
 
 .sucursales-back-button {
-  width: 24px;
-  height: 24px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
   border: none;
   background-color: transparent;
   color: #E0C9A6;

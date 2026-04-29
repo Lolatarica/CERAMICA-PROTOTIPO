@@ -55,8 +55,12 @@ function ProfesorPagos({
 
   const resumenPagos = useMemo(() => {
     return alumnos.map((alumno) => {
-      const estado = pagosAlumnos[alumno.id]?.meses?.[filtroMes] || 'pendiente';
-      const metodoPago = pagosAlumnos[alumno.id]?.metodosPagoPorMes?.[filtroMes] || 'efectivo';
+      const pagosAlumno = pagosAlumnos[alumno.id] || {};
+      const pagosFiltradosPorClase = filtroClase !== 'todas'
+        ? pagosAlumno?.porClase?.[filtroClase]
+        : null;
+      const estado = (pagosFiltradosPorClase?.meses || pagosAlumno?.meses || {})[filtroMes] || 'pendiente';
+      const metodoPago = (pagosFiltradosPorClase?.metodosPagoPorMes || pagosAlumno?.metodosPagoPorMes || {})[filtroMes] || 'efectivo';
       const asignaciones = obtenerAsignaciones(alumno);
 
       return {
@@ -78,7 +82,7 @@ function ProfesorPagos({
 
   const toggleEstadoPago = (alumnoId, estadoActual) => {
     const siguienteEstado = estadoActual === 'pagado' ? 'pendiente' : 'pagado';
-    onActualizarEstadoPago?.(alumnoId, filtroMes, siguienteEstado);
+    onActualizarEstadoPago?.(alumnoId, filtroMes, siguienteEstado, filtroClase !== 'todas' ? filtroClase : '');
   };
 
   return (
@@ -126,6 +130,10 @@ function ProfesorPagos({
           </button>
         </section>
 
+        <p className="pagos-texto-aclaracion">
+          Para ver mas detalle toque el recuadro del alumno.
+        </p>
+
         <div className="pagos-lista-contenedor">
           <p className="pagos-resultados-txt">
             Resultados: {resumenPagos.length} alumnos
@@ -171,7 +179,7 @@ function ProfesorPagos({
                   <select
                     className="pagos-select-metodo-pago"
                     value={metodoPago}
-                    onChange={(event) => onActualizarMetodoPago?.(alumno.id, filtroMes, event.target.value)}
+                    onChange={(event) => onActualizarMetodoPago?.(alumno.id, filtroMes, event.target.value, filtroClase !== 'todas' ? filtroClase : '')}
                   >
                     <option value="efectivo">Efectivo</option>
                     <option value="cuentaBancaria">Cuenta bancaria</option>
@@ -183,7 +191,7 @@ function ProfesorPagos({
                     <button
                       type="button"
                       className="pagos-boton-comprobante-inicial"
-                      onClick={() => onActualizarEstadoPago?.(alumno.id, filtroMes, 'pendiente')}
+                      onClick={() => onActualizarEstadoPago?.(alumno.id, filtroMes, 'pendiente', filtroClase !== 'todas' ? filtroClase : '')}
                     >
                       Comprobante inicial
                     </button>
@@ -217,6 +225,7 @@ function ProfesorPagos({
           turnosPorSucursalYClase={turnosPorSucursalYClase}
           pagosAlumno={pagosAlumnos[alumnoSeleccionado.id]}
           mesesPago={mesesPago}
+          claseInicialPagos={filtroClase !== 'todas' ? filtroClase : ''}
           onAgregarAsignacion={(nuevaAsignacion) => onAgregarAsignacion?.(alumnoSeleccionado.id, nuevaAsignacion)}
           onActualizarEstadoPago={onActualizarEstadoPago}
           onActualizarMetodoPago={onActualizarMetodoPago}

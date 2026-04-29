@@ -2,6 +2,7 @@
 import React, { useMemo, useState } from 'react';
 import logoTaller from '../assets/logo_taller.png';
 import CalendarioCupos from '../components/CalendarioCupos';
+import AlumnoDetallePanel from '../components/AlumnoDetallePanel';
 import { formatTurnoId } from '../utils/timeFormat';
 import { DIAS_SEMANA, esHoraValida, HORAS_BASE, obtenerDetalleTurno, ordenarHoras } from '../utils/agendaConfig';
 import './ProfesorCupos.css'; // <-- Asegurate de crear e importar este archivo
@@ -14,8 +15,16 @@ function ProfesorCupos({
   sucursales = [],
   turnosPorSucursalYClase = {},
   detallesTurnosPorSucursalYClase = {},
+  alumnos = [],
+  pagosAlumnos = {},
+  mesesPago = [],
   onActualizarCupos,
   onEliminarHorario,
+  onAgregarAsignacion,
+  onGuardarAlumno,
+  onDesasignarAlumno,
+  onActualizarEstadoPago,
+  onActualizarMetodoPago,
 }) {
   const [claseSeleccionada, setClaseSeleccionada] = useState(claseInicial || clases[0]?.id || '');
   const [sucursalSeleccionada, setSucursalSeleccionada] = useState(sucursalInicial || sucursales[0]?.id || '');
@@ -26,6 +35,7 @@ function ProfesorCupos({
   const [inputCupos, setInputCupos] = useState('');
   const [mostrarModalFila, setMostrarModalFila] = useState(false);
   const [nuevaHora, setNuevaHora] = useState(HORAS_BASE[0] || '09:00');
+  const [alumnoDetalleId, setAlumnoDetalleId] = useState(null);
   const [nuevosCupos, setNuevosCupos] = useState(() =>
     DIAS_SEMANA.reduce((acc, dia) => ({ ...acc, [dia]: '' }), {})
   );
@@ -43,6 +53,39 @@ function ProfesorCupos({
   const detalleTurnoSeleccionado = turnoViendoDetalle
     ? obtenerDetalleTurno(detallesTurnosPorSucursalYClase, sucursalSeleccionada, claseSeleccionada, turnoViendoDetalle)
     : { profesor: 'Sin asignar', alumnos: [] };
+
+  const alumnoSeleccionado = useMemo(() => {
+    if (!alumnoDetalleId) {
+      return null;
+    }
+
+    const alumnoExistente = alumnos.find((alumno) => alumno.id === alumnoDetalleId);
+
+    if (alumnoExistente) {
+      return alumnoExistente;
+    }
+
+    const alumnoEnDetalle = (detalleTurnoSeleccionado.alumnos || []).find((alumno) => alumno.id === alumnoDetalleId);
+
+    if (!alumnoEnDetalle || !turnoViendoDetalle) {
+      return null;
+    }
+
+    return {
+      id: alumnoEnDetalle.id,
+      nombre: alumnoEnDetalle.nombre,
+      tel: alumnoEnDetalle.telefono || '',
+      mail: '',
+      asignaciones: [{
+        sucursalId: sucursalSeleccionada,
+        claseId: claseSeleccionada,
+        turnoId: turnoViendoDetalle,
+      }],
+      sucursalId: sucursalSeleccionada,
+      claseId: claseSeleccionada,
+      turnoId: turnoViendoDetalle,
+    };
+  }, [alumnoDetalleId, alumnos, detalleTurnoSeleccionado.alumnos, turnoViendoDetalle, sucursalSeleccionada, claseSeleccionada]);
 
   const nombreClaseSeleccionada = clases.find((clase) => clase.id === claseSeleccionada)?.nombre || 'clase';
   const nombreSucursalSeleccionada = sucursales.find((sucursal) => sucursal.id === sucursalSeleccionada)?.nombre || 'sucursal';
@@ -86,6 +129,52 @@ function ProfesorCupos({
   const eliminarHorario = () => {
     onEliminarHorario(sucursalSeleccionada, claseSeleccionada, celdaSeleccionada);
     cerrarModalCupo();
+  };
+
+  const guardarDatosAlumnoDesdeDetalle = (datosAlumno) => {
+    if (!alumnoSeleccionado) {
+      return {
+        ok: false,
+        mensaje: 'No se encontro el alumno seleccionado.',
+      };
+    }
+
+    const nombre = datosAlumno?.nombre?.trim() || '';
+    const tel = datosAlumno?.tel?.trim() || '';
+    const mail = datosAlumno?.mail?.trim() || '';
+
+    const errores = {
+      nombre: !nombre ? 'Este casillero es obligatorio para continuar' : null,
+      tel: !tel ? 'Este casillero es obligatorio para continuar' : null,
+      mail: !mail
+        ? 'Este casillero es obligatorio para continuar'
+        : !mail.includes('@')
+          ? 'El mail debe incluir una arroba (@)'
+          : null,
+    };
+
+    if (Object.values(errores).some(Boolean)) {
+      return {
+        ok: false,
+        errores,
+      };
+    }
+
+    const guardadoOk = onGuardarAlumno?.({
+      ...alumnoSeleccionado,
+      nombre,
+      tel,
+      mail,
+    });
+
+    if (guardadoOk === false) {
+      return {
+        ok: false,
+        mensaje: 'No se pudieron guardar los cambios del alumno.',
+      };
+    }
+
+    return { ok: true };
   };
 
   const abrirModalFila = () => {
@@ -233,7 +322,20 @@ function ProfesorCupos({
                 </thead>
                 <tbody>
                   {detalleTurnoSeleccionado.alumnos.map((alumno) => (
-                    <tr key={alumno.id}>
+                    <tr
+                      key={alumno.id}
+                      className="cupos-fila-alumno"
+                      onClick={() => setAlumnoDetalleId(alumno.id)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                          event.preventDefault();
+                          setAlumnoDetalleId(alumno.id);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Ver detalle de ${alumno.nombre}`}
+                    >
                       <td className="cupos-td">{alumno.nombre}</td>
                       <td className="cupos-td">{alumno.telefono}</td>
                     </tr>
@@ -329,6 +431,24 @@ function ProfesorCupos({
             </div>
           </div>
         </div>
+      )}
+
+      {alumnoSeleccionado && (
+        <AlumnoDetallePanel
+          alumno={alumnoSeleccionado}
+          clases={clases}
+          sucursales={sucursales}
+          turnosPorSucursalYClase={turnosPorSucursalYClase}
+          pagosAlumno={pagosAlumnos[alumnoSeleccionado.id]}
+          mesesPago={mesesPago}
+          claseInicialPagos={claseSeleccionada}
+          onAgregarAsignacion={(nuevaAsignacion) => onAgregarAsignacion?.(alumnoSeleccionado.id, nuevaAsignacion)}
+          onActualizarEstadoPago={onActualizarEstadoPago}
+          onActualizarMetodoPago={onActualizarMetodoPago}
+          onQuitarAsignacion={(asignacion) => onDesasignarAlumno?.(alumnoSeleccionado.id, asignacion)}
+          onGuardarDatosAlumno={guardarDatosAlumnoDesdeDetalle}
+          onClose={() => setAlumnoDetalleId(null)}
+        />
       )}
     </div>
   );
